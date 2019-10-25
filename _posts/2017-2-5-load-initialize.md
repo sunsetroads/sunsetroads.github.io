@@ -6,7 +6,9 @@ description: load 和 initialize 的区别
 keywords: OC, iOS
 ---
 
-+load 和 +initialize 是 Objective-C runtime 会自动调用的两个类方法。但是它们被调用的时机却是有差别的，+load 方法是在类被加载的时候调用的，而 +initialize 方法是在类或它的子类收到第一条消息之前被调用的，这里所指的消息包括实例方法和类方法的调用。也就是说 +initialize 方法是以懒加载的方式被调用的，如果程序一直没有给某个类或它的子类发送消息，那么这个类的 +initialize 方法是永远不会被调用的
++load 和 +initialize 是 Objective-C runtime 会自动调用的两个类方法，但是它们被调用的时机却是有差别的。
+
++load 方法是在类被加载的时候调用的，而 +initialize 方法是在类或它的子类收到第一条消息之前被调用的，这里所指的消息包括实例方法和类方法的调用。也就是说 +initialize 方法是以懒加载的方式被调用的，如果程序一直没有给某个类或它的子类发送消息，那么这个类的 +initialize 方法是永远不会被调用的
 
 ```
 @implementation Person
