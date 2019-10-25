@@ -1,21 +1,21 @@
 ---
 layout: wiki
 title: CentOS7 中 MongoDB 配置流程
-categories: Copywriting
+categories: linux
 description: CentOS7 中MongoDB配置流程
-keywords: CentOS MongoDB
+keywords: CentOS MongoDB linux
 ---
 
 
 #### 使用配置文件启动
-#####创建配置文件
+##### 创建配置文件
 ```
 cd /usr/local/etc
 ```
 ```
  vi mongod.conf
 ```
-#####复制下面的内容
+##### 复制下面的内容
 ```
 systemLog:
   destination: file
@@ -31,17 +31,17 @@ processManagement:
 security:
   authorization: enabled
 ```
-#####启动服务
+##### 启动服务
 ```
  mongod --config /usr/local/etc/mongod.conf
 ```
 
-#####进入mongodb交互shell
+##### 进入mongodb交互shell
 ```
  mongo
 ```
 
-####创建管理员角色
+#### 创建管理员角色
 **需要切换到对应数据库创建用户，进入admin数据库创建管理员**
 
 ```
@@ -70,7 +70,7 @@ db.createUser(
 ) 
 ```
 
-####用户认证
+#### 用户认证
 **要到对应的数据库上去认证用户, 否则会认证授权失败**
 
 ```
@@ -80,24 +80,24 @@ use blog
 ```
 db.auth('user1','xxxx123')
 ```
-####数据备份
+#### 数据备份
 ```
 mongodump -h 127.0.0.1 --port 27017 -d blog -u user1 -p xxxx123 -o /Users/zhangning/Desktop/mongoData
 ```
-####数据恢复
+#### 数据恢复
 ```
 mongorestore -h 127.0.0.1 --port 27017 -u user1 -p xxxx123 -d iBlog2 --drop /Users/zhangning/Desktop/mongoData/iBlog2
 ```
-####数据导入
+#### 数据导入
 ```
 mongoimport -h 127.0.0.1 --port 27017 -u user1 -p xxxx123 -d iBlog2 -c post --upsertFields _id --drop /Users/zhangning/Desktop/test.csv
 ```
 
-####数据导出
+#### 数据导出
 ```
 mongoexport -h 127.0.0.1 --port 27017 -u user1 -p xxxx123 -d iBlog2 -c post -f _id -o /Users/zhangning/Desktop/test.csv
 ```
-####定时备份脚本
+#### 定时备份脚本
 ```
 mkdir -p ~/crontab
 vi ~/crontab/mongod_bak.sh
@@ -151,13 +151,13 @@ chkconfig crond on
 ```
 
 
-####文件传输
+#### 文件传输
 ```
 scp -P 29698 Desktop/mongo.tar root@66.98.123.33:/root
 ```
 
 
-####文件压缩
+#### 文件压缩
 ```
 tar -cvf tutorial.tar tutorial/
 ```
@@ -166,7 +166,7 @@ tar -cvf tutorial.tar tutorial/
 tar -zcvf tutorial.tar.gz tutorial/
 ```
 
-####文件解压
+#### 文件解压
 ```
 tar -xvf tutorial.tar
 ```
