@@ -14,14 +14,16 @@ keywords: HTTPS, iOS, node.js
 3. 服务器使用自己私钥对收到的加密数据解密，得到对称加密密钥并保存；
 4. 然后双方通过对称加密的数据进行传输。
 
-### 数字签名
-在HTTPS客户端与服务器第一次交互时，服务端返回给客户端的数字证书是让客户端验证这个数字证书是不是服务端的，证书所有者是不是该服务器，确保数据由正确的服务端发来，没有被第三方篡改。数字证书可以保证数字证书里的公钥确实是这个证书的所有者(Subject)的，或者证书可以用来确认对方身份。证书由公钥、证书主题(Subject)、数字签名(digital signature)等内容组成。其中数字签名就是证书的防伪标签，目前使用最广泛的SHA-RSA加密。
+### 数字证书
+在HTTPS客户端与服务器第一次交互时，服务端返回给客户端的数字证书是让客户端验证这个数字证书是不是服务端的，证书所有者是不是该服务器。确保数据由正确的服务端发来，没有被第三方篡改。证书由公钥、证书主题 (Subject)、数字签名 (digital signature) 等内容组成。其中数字签名是证书的防伪标签，目前使用最广泛的SHA-RSA加密。
 
 证书一般分为两种：
 一种是向权威认证机构购买的证书，服务端使用该种证书时，因为苹果系统内置了其受信任的签名根证书，所以客户端不需额外的配置。为了证书安全，在证书发布机构公布证书时，证书的指纹算法都会加密后再和证书放到一起公布以防止他人伪造数字证书。而证书机构使用自己的私钥对其指纹算法加密，可以用内置在操作系统里的机构签名根证书来解密，以此保证证书的安全。
 另一种是自己制作的证书，即自签名证书。好处是不需要花钱购买，但使用这种证书是不会受信任的，**客户端需要在代码中将该证书配置为信任证书**。
+
 ### 生成证书
-使用openssl生成证书
+
+使用 openssl 生成证书
 ```
 # 1.生成私钥
 $ openssl genrsa -out server.key 2048
@@ -33,7 +35,7 @@ $ openssl req -subj "/C=CN/ST=GuangDong/L=ShenZhen/O=xlcw/OU=xlcw Software" -new
 $ openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.crt
 ```
 ### 服务端配置
-引入系统的https模块即可（其它语言类似），也可以通过Nginx配置实现。以node.js为例：
+引入系统的 https 模块即可（其它语言类似），也可以通过 Nginx 配置实现。以 node.js 为例：
 ```
 const express = require('express')
 const path = require('path')
@@ -83,8 +85,8 @@ app.get('/', function (req, res) {
 });
 ```
 ### 5. 客户端配置
-客户端需要将证书放在客户端内，与请求下来的服务端证书比对，防止类似于Charles类的软件抓包。
-这里iOS 使用AFNetworking来发起请求，下面是配置信任自签名证书的过程
+客户端需要将证书放在客户端内，与请求下来的服务端证书比对，防止类似于 Charles 类的软件抓包。
+这里iOS 使用 AFNetworking 来发起请求，下面是配置信任自签名证书的过程
 ```
 NSString *cerPath = [[NSBundle mainBundle] pathForResource:@"ca" ofType:@"cer"];
 NSData* caCert = [NSData dataWithContentsOfFile:cerPath];
