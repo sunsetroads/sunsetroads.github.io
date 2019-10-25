@@ -1,12 +1,12 @@
 ---
 layout: wiki
-title: CentOS7 中 MongoDB 配置流程
+title: CentOS 中 MongoDB 配置流程
 categories: linux
 description: CentOS 中 MongoDB 配置流程
 keywords: CentOS MongoDB linux
 ---
 
-记录一下 centos7 中 mongodb 的配置流程。
+记录一下 centos 中 mongodb 的配置流程。
 
 #### 使用配置文件启动
 ##### 创建配置文件
