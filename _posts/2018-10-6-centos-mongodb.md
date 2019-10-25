@@ -6,7 +6,7 @@ description: CentOS 中 MongoDB 配置流程
 keywords: CentOS MongoDB linux
 ---
 
-记录一下 centos 中 mongodb 的配置流程。
+记录一下 CentOS 中 MongoDB 的配置流程。
 
 #### 使用配置文件启动
 ##### 创建配置文件
@@ -37,7 +37,7 @@ security:
  mongod --config /usr/local/etc/mongod.conf
 ```
 
-##### 进入mongodb交互shell
+##### 进入MongoDB交互shell
 ```
  mongo
 ```
