@@ -1,6 +1,6 @@
 ---
 layout: post
-title: iOS 中 load 和 initialize 的区别
+title: iOS 中 Load 和 Initialize 的区别
 categories: iOS
 description: load 和 initialize 的区别
 keywords: OC, iOS
