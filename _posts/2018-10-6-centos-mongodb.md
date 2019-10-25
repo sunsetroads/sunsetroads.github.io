@@ -2,7 +2,7 @@
 layout: wiki
 title: CentOS7 中 MongoDB 配置流程
 categories: linux
-description: CentOS7 中 MongoDB 配置流程
+description: CentOS 中 MongoDB 配置流程
 keywords: CentOS MongoDB linux
 ---
 
