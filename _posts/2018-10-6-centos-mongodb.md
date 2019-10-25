@@ -6,6 +6,7 @@ description: CentOS7 中MongoDB配置流程
 keywords: CentOS MongoDB linux
 ---
 
+记录一下centos7 中 mongodb 的配置流程
 
 #### 使用配置文件启动
 ##### 创建配置文件
@@ -55,7 +56,7 @@ db.createUser(
   }  
 )
 ```
-####创建用户角色
+#### 创建用户角色
 
 ```
 use blog
