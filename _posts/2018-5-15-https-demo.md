@@ -6,7 +6,12 @@ description: 使用自签名证书搭建 HTTPS 服务
 keywords: HTTPS, iOS, node.js
 ---
 
-简单来说，HTTPS 就是 HTTP 协议上再加一层加密处理的 SSL/TLS 协议。相比 HTTP，HTTPS 可以保证内容在传输过程中不会被第三方查看、及时发现被第三方篡改的内容、防止身份冒充等，从而更有效的保证网络数据的安全。
+HTTPS 的核心是 SSL/TLS协议。SSL/TLS 是一种介与于传输层（比如TCP/IP）和应用层（比如HTTP）的协议。它通过「握手协议(Handshake Protocol)」和「传输协议(Record Protocol)」来解决传输安全的问题。SSL/TLS是一个可选层，没有它，使用HTTP也可以通信，它存在的目的就是为了解决安全问题，这也就是HTTPS相对于HTTP的精髓所在。
+
+### HTTPS 解决的问题 
+1. 保证内容在传输过程中不会被第三方查看
+2. 及时发现被第三方篡改的内容
+3. 防止身份冒充
 
 ### HTTPS 客户端与服务器交互过程：
 1. 客户端第一次请求时，服务器会返回一个包含公钥的数字证书给客户端；
