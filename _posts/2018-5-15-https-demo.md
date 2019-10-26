@@ -106,7 +106,7 @@ app.get('/', function (req, res) {
     }
 });
 ```
-### 5. 客户端配置
+### 客户端配置
 客户端需要将证书放在客户端内，与请求下来的服务端证书比对，防止类似于 Charles 类的软件抓包。
 这里iOS 使用 AFNetworking 来发起请求，下面是配置信任自签名证书的过程
 ```
@@ -140,3 +140,5 @@ if ([url.scheme isEqualToString: @"https"]) {
     NSLog(@"\n*********\n请求失败___%@\n************\n",error.localizedDescription);
 }];
 ```
+
+[demo](https://github.com/sunsetroads/https_demo)
