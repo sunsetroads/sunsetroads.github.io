@@ -19,7 +19,7 @@ HTTPS 的核心是 SSL/TLS协议。SSL/TLS 是一种介与于传输层（比如T
 3. 服务器使用自己私钥对收到的加密数据解密，得到对称加密密钥并保存；
 4. 然后双方通过对称加密的数据进行传输。
 
-### 证书的内容
+### HTTPS 证书的内容
 
 - 颁发证书的机构的名字（CA）
 - 证书内容本身的数字签名（用 CA 私钥加密）
@@ -107,8 +107,7 @@ app.get('/', function (req, res) {
 });
 ```
 ### 客户端配置
-客户端需要将证书放在客户端内，与请求下来的服务端证书比对，防止类似于 Charles 类的软件抓包。
-这里iOS 使用 AFNetworking 来发起请求，下面是配置信任自签名证书的过程
+客户端需要将证书放在客户端内，并信任该证书。这里iOS 使用 AFNetworking 来发起请求，下面是配置信任自签名证书的过程
 ```
 NSString *cerPath = [[NSBundle mainBundle] pathForResource:@"ca" ofType:@"cer"];
 NSData* caCert = [NSData dataWithContentsOfFile:cerPath];
