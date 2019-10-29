@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About
-description: 打码改变世界
+description: 一切皆有套路
 keywords: Ning Zhang, 张宁
 comments: true
 menu: 关于
