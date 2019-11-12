@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Untiy 导出的 Xcode 替换资源流程
-categories: Untiy
+categories: Unity
 description: Untiy 导出的 Xcode 替换资源流程
 keywords: Untiy, Xcode
 ---
