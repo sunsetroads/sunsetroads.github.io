@@ -92,9 +92,15 @@ buildArgs="bundleIdentifier=test.com;bundleVersion=1.0;productName=test"
 # 执行 iOSBuilder 方法
 $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project-$buildArgs -quit
 ```
-这里的参数都是可灵活配置的，为后面 Jenkins 一键打包做基础。
+这里的参数都是可灵活配置的，为后面 Jenkins 一键打包做准备。
 
 ## 配置 Xcode 工程
+Unity 应用中经常会用到一些 iOS 原生的 Api，我们需要在导出 Xcode 后，往 Xcode 中添加一些 OC 文件和依赖库以满足 C# 层的调用。
+
+配置可能包括修改 Xcode 的 Info.plist、BuildSetting，添加 SDK文件和相关的依赖库，下面这些方法库可以帮助实现。
+
+- [XUPorter](https://github.com/onevcat/XUPorter)
+
 
 ## Xcode 工程导出 ipa 包
 
