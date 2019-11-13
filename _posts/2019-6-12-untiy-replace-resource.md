@@ -6,7 +6,7 @@ description: Untiy 导出的 Xcode 替换资源流程
 keywords: Untiy, Xcode
 ---
 
-Untiy 工程导出 Xcode 后通常需要修改一些 iOS 相关的配置，如果每次导出 Xcode 都去修改会比较浪费时间，这里介绍另一种简单快捷的做法。
+Untiy 工程导出 Xcode 后通常需要修改一些 iOS 相关的配置，如果每次导出 Xcode 都去修改会比较浪费时间，这里介绍一种简单快捷的做法。
 
 **Untiy 导出的 Xcode 工程的目录结构**
 
