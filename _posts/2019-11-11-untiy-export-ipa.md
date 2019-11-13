@@ -16,7 +16,7 @@ Unity 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如
 
 ## Unity 工程导出 Xcode 工程
 ### 使用 UnityEditor 中 Xcode 相关的 Api
-`UnityEditor` 提供了来生成 Xcode 和配置 Xcode 的 Api。
+`UnityEditor` 提供了生成 Xcode 和配置 Xcode 的 Api。
 
 `UnityEditor.BuildPipeline`提供了一个函数`BuildPlayer`用来导出成 Xcode 工程。
 
@@ -76,7 +76,7 @@ public class iOSBuilder:Editor
 当执行`iOSBuilder.Build`时，就会导出一个 Xcode 工程。
 
 ### Shell 中调用 C# 的方法
-我们最终的目的是使用命令执行所有的操作，所以需要使用脚本调用`iOSBuilder.Build`，并传入相关参数。
+我们最终的目的是使用命令执行所有的操作，所以需要使用脚本调用`iOSBuilder.Build`。
 
 新建一个 build.sh，内容如下。
 ```
@@ -86,7 +86,7 @@ UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
 # Unity 工程路径
 PROJECT_PATH=/Users/sunsetroad/demo
 
-# Xcode 参数
+# iOSBuilder 中 SetUnityParams 会读取这些参数，并作用于 PlaySetting
 buildArgs="bundleIdentifier=test.com;bundleVersion=1.0;productName=test"
 
 # 执行 iOSBuilder 方法
