@@ -95,11 +95,19 @@ $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project
 这里的参数都是可灵活配置的，为后面 Jenkins 一键打包做准备。
 
 ## 配置 Xcode 工程
-Unity 应用中经常会用到一些 iOS 原生的 Api，我们需要在导出 Xcode 后，往 Xcode 中添加一些 OC 文件和依赖库以满足 C# 层的调用。
+Unity 应用有时候需要调用一些 iOS 原生的 Api，通常会在 C# 层定义好 C 的接口然后直接调用，在 OC 层去实现对应的接口。我们需要在导出 Xcode 后做一些配置，添加一些 OC 文件和依赖库，以及修改一些编译配置，比如将 EnableBitCode 设置为 No。
 
-配置可能包括修改 Xcode 的 Info.plist、BuildSetting，添加 SDK文件和相关的依赖库，下面这些方法库可以帮助实现。
+Xcode 是通过 pbxproj 文件来查找文件和工程的编译配置，该文件通过 交叉 UUID 来索引，不方便直接去修改，下面这些方法库可以帮助实现一部分，但都缺少一些功能，不太符合我的需求。
 
-- [XUPorter](https://github.com/onevcat/XUPorter)
+| 插件 | 缺点 |
+| ------ | ------ |
+| [mod-pbxproj](https://github.com/kronenthaler/mod-pbxproj) | 无法修改 Xcode 的 Capabilities |
+| [XUPorter](https://github.com/onevcat/XUPorter) | 作者不维护了，Bug 较多 |
+| [UnityEditor.iOS.Xcode](https://docs.unity3d.com/ScriptReference/iOS.Xcode.PBXProject.html) | 需要较高版本的 Unity |
+
+
+
+
 
 
 ## Xcode 工程导出 ipa 包
