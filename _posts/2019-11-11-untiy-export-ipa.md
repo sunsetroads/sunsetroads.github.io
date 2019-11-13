@@ -3,18 +3,92 @@ layout: post
 title: 使用 Jenkins 从 Unity 工程中自动化导出 iOS 包
 categories: Unity
 description: Unity 自动化导出 iOS 包
-keywords: untiy, ios, jenkins
+keywords: Unity, ios, jenkins
 ---
 
 Unity 打 iOS 平台的包过程很繁琐，有时候测试人员也需要不同类型的包来验证问题，出包需求较频繁。如果都由开发人员来出包会比较浪费时间，梳理整个流程后发现很多操作是重复的，不同类型的包区别在于版本号、游戏内容（可以用 git commitId 或 svn 版本号来表示）和一些业务参数，我们可以将这些参数由 Jenkins 配置，再结合 Shell、Python 脚本执行参数化构建，实现整个流程的自动化，让测试人员也可以打自己需要的包。
 
-Untiy 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如何用脚本来执行，最后用 Jenkins 将整个流程串起来，实现在 Jenkins 网页上选择参数后一键打包。
+Unity 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如何用脚本来执行，最后用 Jenkins 将整个流程串起来，实现在 Jenkins 网页上选择参数后一键打包。
 
-1. Untiy 工程导出 Xcode 工程
+1. Unity 工程导出 Xcode 工程
 2. 配置 Xcode 工程，往 Xcode 里添加 iOS SDK 文件并修改 Xcode 编译配置
 3. Xcode 工程导出 ipa 包
 
-## Untiy 工程导出 Xcode 工程
+## Unity 工程导出 Xcode 工程
+### 使用 UnityEditor 提供的生成 Api 来生成 Xcode
+* UnityEditor.BuildPipeline 提供了一个方法`BuildPlayer`用来导出成 Xcode 工程
+
+* UnityEditor.PlayerSettings 提供了修改 Xcode 工程配置的 api，比如包名、版本号。
+
+**示例**
+新建一个 iOSBuilder.cs，内容如下。当执行`iOSBuilder.Build`时，就会导出一个 Xcode 工程
+```
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+
+public class iOSBuilder:Editor
+{
+	public static void Build()
+	{
+		SetUnityParams ();
+		BuildPipeline.BuildPlayer(ProjectBuilder.GetBuildScenes(), "/Users/sunsetroad/Desktop/test", BuildTarget.iOS, BuildOptions.None);
+	}
+
+	void SetUnityParams()
+	{
+		foreach(string arg in System.Environment.GetCommandLineArgs())
+		{
+			if(arg.StartsWith("project-", System.StringComparison.Ordinal))
+			{
+				ModifyPlayerSetting(arg.Replace("project-", ""), BuildTargetGroup.iOS);
+			}
+		}
+	}
+
+	//修改 Xcode 参数，
+	void ModifyPlayerSetting(string arg, BuildTargetGroup targetGroup)
+	{
+		string[] argsArray = arg.Split(';');
+		for (int i = 0; i < argsArray.Length; i++)
+		{
+			string[] argSprite = argsArray[i].Split('=');
+			if (argSprite.Length != 2)
+				continue;
+			switch (argSprite[0].Trim())
+			{
+				case "bundleIdentifier":
+					PlayerSettings.applicationIdentifier = argSprite[1];
+					break;
+				case "bundleVersion":
+					PlayerSettings.bundleVersion = argSprite[1];
+					break;
+				case "productName":
+					PlayerSettings.productName = argSprite[1];
+					break;
+			}
+		}
+	}
+}
+
+```
+
+### 调用 Unity 执行 C# 的方法，并传参
+使用 Shell 脚本调用 iOSBuilder.cs 中的函数，并传人相关参数修改 Xcode 的 bundleIdentifier、bundleVersion、productName。
+```
+# Unity 程序路径
+UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
+
+# Unity 工程路径
+PROJECT_PATH=/Users/sunsetroad/demo
+
+# Xcode 参数
+buildArgs="bundleIdentifier=test.com;bundleVersion=1.0;productName=test"
+
+# 执行 iOSBuilder 方法
+$UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project-$buildArgs -quit
+```
 
 ## 配置 Xcode 工程
 
