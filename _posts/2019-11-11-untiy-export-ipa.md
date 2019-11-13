@@ -22,7 +22,7 @@ Unity 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如
 
 `UnityEditor.PlayerSettings`提供了各种修改 Xcode 工程基础配置的 Api，比如包名、版本号。
 
-在 Unity 工程 Editor 目录下新建一个 iOSBuilder.cs，内容如下。当执行`iOSBuilder.Build`时，就会导出一个 Xcode 工程。
+在 Unity 工程 Editor 目录下新建一个 iOSBuilder.cs，内容如下。
 ```
 using UnityEngine;
 using System.Collections;
@@ -73,11 +73,12 @@ public class iOSBuilder:Editor
 	}
 }
 ```
+当执行`iOSBuilder.Build`时，就会导出一个 Xcode 工程。
 
 ### Shell 中调用 C# 的方法
 我们最终的目的是使用命令执行所有的操作，所以需要使用脚本调用`iOSBuilder.Build`，并传入相关参数。
 
-新建一个 build.sh，内容如下。这里的参数都是可灵活配置的，为后面 Jenkins 一键打包做基础。
+新建一个 build.sh，内容如下。
 ```
 # Unity 程序路径
 UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
@@ -91,6 +92,7 @@ buildArgs="bundleIdentifier=test.com;bundleVersion=1.0;productName=test"
 # 执行 iOSBuilder 方法
 $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project-$buildArgs -quit
 ```
+这里的参数都是可灵活配置的，为后面 Jenkins 一键打包做基础。
 
 ## 配置 Xcode 工程
 
