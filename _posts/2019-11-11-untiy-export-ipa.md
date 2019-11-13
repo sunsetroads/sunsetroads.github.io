@@ -20,15 +20,13 @@ UnityEditor 提供了来生成 Xcode 和配置 Xcode 的 Api。
 
 **UnityEditor.BuildPipeline**
 
-提供了一个方法`BuildPlayer`用来导出成 Xcode 工程
+提供了一个函数`BuildPlayer`用来导出成 Xcode 工程。
 
 **UnityEditor.PlayerSettings**
 
 提供了修改 Xcode 工程配置的 Api，比如包名、版本号。
 
-**示例**
-
-新建一个 iOSBuilder.cs，内容如下。当执行`iOSBuilder.Build`时，就会导出一个 Xcode 工程
+新建一个 iOSBuilder.cs，内容如下。当执行`iOSBuilder.Build`时，就会导出一个 Xcode 工程。
 ```
 using UnityEngine;
 using System.Collections;
@@ -83,8 +81,6 @@ public class iOSBuilder:Editor
 
 ### Shell 中调用 C# 的方法
 我们最终的目的是使用命令执行所有的操作，所以需要使用脚本调用`iOSBuilder.Build`，并传入相关参数。
-
-**示例**
 
 新建一个 build.sh，内容如下。这里的参数都是可灵活配置的，为后面 Jenkins 一键打包做基础。
 ```
