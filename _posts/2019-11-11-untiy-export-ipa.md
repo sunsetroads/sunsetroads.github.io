@@ -161,7 +161,7 @@ plist = '/Users/zhangning/Desktop/ExportOptions.plist'
 Package.build (project_path, ipa_path, plist)
 ```
 
-为了将所有操作放在一个脚本里，我们再修改一下上一步中的 start.py 和 build.sh。
+为了将所有操作放在一个脚本里，我们再修改一下上一步中的 start.py 和 build.sh，并将每次打包时会变的参数改为从环境变量中获取。
 
 ```
 // start.py
@@ -191,8 +191,14 @@ Package.build(project_path, ipa_path, plist)
 
 ```
 
+这里仅为示例，需要结合业务需求，将对应的参数设置为从环境变量中换取。
 ```
 # build.sh
+
+bundleIdentifier=$1
+bundleVersion=$2
+productName=$3
+commitId=$4
 
 # Unity 程序路径
 UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
@@ -200,8 +206,13 @@ UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
 # Unity 工程路径
 PROJECT_PATH=/Users/sunsetroad/demo
 
+# 更新工程
+cd ${PROJECT_PATH}
+git clean -f
+git reset --hard ${commitId}
+
 # iOSBuilder 中 SetUnityParams 会读取这些参数，并作用于 PlaySetting
-buildArgs="bundleIdentifier=test.com;bundleVersion=1.0;productName=test"
+buildArgs="bundleIdentifier=${bundleIdentifier};bundleVersion=${bundleVersion};productName=${productName}"
 
 # 执行 iOSBuilder 方法
 $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project-$buildArgs -quit
@@ -218,3 +229,10 @@ python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project} ${ipapa
 ```
 
 ## Jenkins 一键打包
+
+现在我们只要这样执行 build.sh 就可以得到一个需要的 ipa 包了
+```
+./build.sh bundleIdentifier bundleVersion productName commitId
+```
+
+下一步要做的就是将 bundleIdentifier、bundleVersion、productName、commitId 改为 由 Jenkins 配置
