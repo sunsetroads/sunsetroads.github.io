@@ -120,7 +120,7 @@ import sys
 
 config_path ='/Users/sunsetroad/Desktop/config.ini'
 
-project_path = '/Users/zhangning/Desktop/testpbx'
+project_path = '/Users/sunset/Desktop/testpbx'
 
 Xcode.modify(project_path, config_path)
 ```
@@ -139,11 +139,11 @@ Xcode 自动化打包网上教程已经太多了，我在 [Xcode-Tools](https://
 ```
 from xcodetools import Package
 
-project_path = '/Users/zhangning/Desktop/testpbx'
+project_path = '/Users/sunsetroad/Desktop/testpbx'
 
-ipa_path = '/Users/zhangning/Desktop/IPA/test.ipa'
+ipa_path = '/Users/sunsetroad/Desktop/IPA/test.ipa'
 
-plist = '/Users/zhangning/Desktop/ExportOptions.plist'
+plist = '/Users/sunsetroad/Desktop/ExportOptions.plist'
 
 # 开始自动打包
 Package.build (project_path, ipa_path, plist)
@@ -158,11 +158,11 @@ import sys
 
 config_path ='/Users/sunsetroad/Desktop/config.ini'
 
-project_path = '/Users/zhangning/Desktop/testpbx'
+project_path = '/Users/sunsetroad/Desktop/testpbx'
 
-ipa_path = '/Users/zhangning/Desktop/IPA/test.ipa'
+ipa_path = '/Users/sunsetroad/Desktop/IPA/test.ipa'
 
-plist = '/Users/zhangning/Desktop/ExportOptions.plist'
+plist = '/Users/sunsetroad/Desktop/ExportOptions.plist'
 
 Xcode.modify(project_path, config_path)
 
@@ -206,4 +206,14 @@ python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py
 ./build.sh bundleIdentifier bundleVersion commitId
 ```
 
-下一步要做的就是将 bundleIdentifier、bundleVersion、commitId 改为 由 Jenkins 配置
+下一步要做的就是将 bundleIdentifier、bundleVersion、commitId 改为 由 Jenkins 配置，在 Jenkins 中勾选参数化构建
+![](/images/jenkins_parm.png)
+
+添加 shell 构建指令
+
+![](/images/jenkins_shell.png)
+
+启动该配置，设置相关参数后点击开始构建。
+
+![](/images/jenkins_start.png)
+
