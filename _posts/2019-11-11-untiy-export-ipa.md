@@ -97,18 +97,30 @@ $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project
 ## 配置 Xcode 工程
 Unity 应用有时候需要调用一些 iOS 原生的 Api，通常会在 C# 层定义好 C 的接口然后直接调用，在 OC 层去实现对应的接口。我们需要在导出 Xcode 后做一些配置，添加一些 OC 文件和依赖库，以及修改一些编译配置，比如将 Enable Bitcode 设置为 No。
 
-Xcode 是通过 pbxproj 文件来查找项目中的文件和工程的编译配置，pbxproj 通过 交叉 UUID 来索引，不方便直接去修改，下面这些库都是用来操作 pbxproj 文件的，但都缺少一些功能，不太符合我的需求。
+### 操作 Xcode 配置的几种方法
+Xcode 是通过 pbxproj 文件来查找项目中的文件和工程的编译配置，pbxproj 通过 交叉 UUID 来索引，不方便直接读取和修改，下面这些库都是用来操作 pbxproj 文件的。
 
 | 插件 | 问题 |
 | ------ | ------ |
 | [mod-pbxproj](https://github.com/kronenthaler/mod-pbxproj) | 无法修改 Xcode 的 Capabilities |
-| [XUPorter](https://github.com/onevcat/XUPorter) | 作者不维护了，Bug 较多 |
+| [XUPorter](https://github.com/onevcat/XUPorter) | 作者不维护了，有一些 Bug 和功能缺陷 |
 | [UnityEditor.iOS.Xcode](https://docs.unity3d.com/ScriptReference/iOS.Xcode.PBXProject.html) | 需要较高版本的 Unity |
 
+[XUPorter](https://github.com/onevcat/XUPorter) 和 [UnityEditor.iOS.Xcode](https://docs.unity3d.com/ScriptReference/iOS.Xcode.PBXProject.html) 都是使用 C# 开发。Untiy 的 [PostProcessBuild] 标签标注的函数会在导出 Xcode 后自动调用，我们可以在此函数中调用这两个插件来配置 Xcode，这样即使手动导出的 Xcode 也无需重复配置，是种不错的做法。
 
+**Xcode-Tools**
+个人对 python 更熟悉一些，也基本没有手动出包的需求，就在 [mod-pbxproj](https://github.com/kronenthaler/mod-pbxproj)] 的基础上开了一套 Xcode 相关工具 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools)，添加了对 Xcode Capability 的修改，并提供了配置文件来配置，方便 Untiy 开发人员使用。
 
+### 使用 [Xcode-Tools]
 
-
+在 build.sh 中添加以下内容，ini 文件中包含来对 Xcode 的各种配置
+```
+ini='./config.ini'
+project='/Users/sunsetroad/Desktop/demo'
+ipapath='/Users/sunsetroad/Documents/build/test.ipa'
+plist='/Users/sunsetroad/Desktop/ExportOptions.plist'
+python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project} ${ipapath} ${plist}
+```
 
 ## Xcode 工程导出 ipa 包
 
