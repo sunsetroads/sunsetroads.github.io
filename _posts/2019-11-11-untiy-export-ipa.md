@@ -59,6 +59,7 @@ public class iOSBuilder:Editor
 				continue;
 			switch (argSprite[0].Trim())
 			{
+				// 仅为示例，需要结合需要需求添加对应的选项
 				case "bundleIdentifier":
 					PlayerSettings.applicationIdentifier = argSprite[1];
 					break;
@@ -87,7 +88,7 @@ UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
 PROJECT_PATH=/Users/sunsetroad/demo
 
 # iOSBuilder 中 SetUnityParams 会读取这些参数，并作用于 PlaySetting
-buildArgs="bundleIdentifier=test.com;bundleVersion=1.0;productName=test"
+buildArgs="bundleIdentifier=test.com;bundleVersion=1.0"
 
 # 执行 iOSBuilder 方法
 $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project-$buildArgs -quit
@@ -117,29 +118,16 @@ XUPorter 和 UnityEditor.iOS.Xcode 都是使用 C# 开发。Untiy 的 [PostProce
 from xcodetools import *
 import sys
 
-# 获取执行脚本的参数
-if len(sys.argv) < 3:
-	print('''
-		usage:
-			请按以下方式启动(需要在ini文件中完成所需配置)
-			python3 [.ini 配置文件路径] [xcode工程路径] 
-		''')
-	exit()
+config_path ='/Users/sunsetroad/Desktop/config.ini'
 
-config_path = sys.argv[1]
-
-project_path = sys.argv[2]
+project_path = '/Users/zhangning/Desktop/testpbx'
 
 Xcode.modify(project_path, config_path)
 ```
 
 参考 [配置规则](https://github.com/sunsetroads/Xcode-Tools/blob/master/config.ini)，将 Xcode 配置写在一个 .ini 文件中，然后在 build.sh 中追加以下内容：
 ```
-ini='/Users/sunsetroad/Desktop/config.ini'
-
-project='/Users/sunsetroad/Desktop/demo'
-
-python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project}
+python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py
 ```
 
 执行 build.sh，就会得到一个配置完善的 Xcode，剩下来就是打包的事了。
@@ -168,22 +156,13 @@ Package.build (project_path, ipa_path, plist)
 from xcodetools import *
 import sys
 
-# 获取执行脚本的参数
-if len(sys.argv) < 5:
-	print('''
-		usage:
-			请按以下方式启动(需要在ini文件中完成所需配置)
-			python3 [.ini 配置文件路径] [xcode工程路径] [ipa存放路径] [ExportOption.plist路径]
-		''')
-	exit()
+config_path ='/Users/sunsetroad/Desktop/config.ini'
 
-config_path = sys.argv[1]
+project_path = '/Users/zhangning/Desktop/testpbx'
 
-project_path = sys.argv[2]
+ipa_path = '/Users/zhangning/Desktop/IPA/test.ipa'
 
-ipa_path = sys.argv[3]
-
-plist = sys.argv[4]
+plist = '/Users/zhangning/Desktop/ExportOptions.plist'
 
 Xcode.modify(project_path, config_path)
 
@@ -197,8 +176,7 @@ Package.build(project_path, ipa_path, plist)
 
 bundleIdentifier=$1
 bundleVersion=$2
-productName=$3
-commitId=$4
+commitId=$3
 
 # Unity 程序路径
 UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
@@ -212,27 +190,20 @@ git clean -f
 git reset --hard ${commitId}
 
 # iOSBuilder 中 SetUnityParams 会读取这些参数，并作用于 PlaySetting
-buildArgs="bundleIdentifier=${bundleIdentifier};bundleVersion=${bundleVersion};productName=${productName}"
+buildArgs="bundleIdentifier=${bundleIdentifier};bundleVersion=${bundleVersion}"
 
 # 执行 iOSBuilder 方法
 $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project-$buildArgs -quit
 
-ini='./config.ini'
-
-project='/Users/sunsetroad/Desktop/demo'
-
-ipapath='/Users/sunsetroad/Documents/build/test.ipa'
-
-plist='/Users/sunsetroad/Desktop/ExportOptions.plist'
-
-python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project} ${ipapath} ${plist}
+# 配置 Xcode 并打包
+python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py
 ```
 
 ## Jenkins 一键打包
 
 现在我们只要这样执行 build.sh 就可以得到一个需要的 ipa 包了
 ```
-./build.sh bundleIdentifier bundleVersion productName commitId
+./build.sh bundleIdentifier bundleVersion commitId
 ```
 
-下一步要做的就是将 bundleIdentifier、bundleVersion、productName、commitId 改为 由 Jenkins 配置
+下一步要做的就是将 bundleIdentifier、bundleVersion、commitId 改为 由 Jenkins 配置
