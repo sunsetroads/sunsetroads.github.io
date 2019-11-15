@@ -106,10 +106,11 @@ Xcode 是通过 pbxproj 文件来查找项目中的文件和工程的编译配�
 | [XUPorter](https://github.com/onevcat/XUPorter) | 作者不维护了，有一些 Bug 和功能缺陷 |
 | [UnityEditor.iOS.Xcode](https://docs.unity3d.com/ScriptReference/iOS.Xcode.PBXProject.html) | 需要较高版本的 Unity |
 
-[XUPorter](https://github.com/onevcat/XUPorter) 和 [UnityEditor.iOS.Xcode](https://docs.unity3d.com/ScriptReference/iOS.Xcode.PBXProject.html) 都是使用 C# 开发。Untiy 的 [PostProcessBuild] 标签标注的函数会在导出 Xcode 后自动调用，我们可以在此函数中调用这两个插件来配置 Xcode，这样即使手动导出的 Xcode 也无需重复配置，是种不错的做法。
+XUPorter 和 UnityEditor.iOS.Xcode 都是使用 C# 开发。Untiy 的 [PostProcessBuild] 标签标注的函数会在导出 Xcode 后自动调用，我们可以在此函数中调用这两个插件来配置 Xcode，这样即使手动导出的 Xcode 也无需重复配置，是种不错的做法。
 
 **Xcode-Tools**
-个人对 python 更熟悉一些，也基本没有手动出包的需求，就在 [mod-pbxproj](https://github.com/kronenthaler/mod-pbxproj)] 的基础上开了一套 Xcode 相关工具 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools)，添加了对 Xcode Capability 的修改，并提供了配置文件来配置，方便 Untiy 开发人员使用。
+
+个人对 python 更熟悉一些，也基本没有手动出包的需求，就在 mod-pbxproj 的基础上开了一套 Xcode 相关工具 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools)，添加了对 Xcode Capability 的修改，并提供了配置文件来配置，方便 Untiy 开发人员使用。
 
 ### 使用 [Xcode-Tools]
 
