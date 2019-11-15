@@ -22,7 +22,7 @@ Unity 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如
 
 `UnityEditor.PlayerSettings`提供了各种修改 Xcode 工程基础配置的 Api，比如包名、版本号。
 
-在 Unity 工程 Editor 目录下新建一个 iOSBuilder.cs，内容如下。
+在 Unity 工程 Editor 目录下新建一个 iOSBuilder.cs，内容如下：
 ```
 using UnityEngine;
 using System.Collections;
@@ -78,7 +78,7 @@ public class iOSBuilder:Editor
 ### Shell 中调用 C# 的方法
 我们最终的目的是使用命令执行所有的操作，所以需要使用脚本调用`iOSBuilder.Build`。
 
-新建一个 build.sh，内容如下。
+新建一个 build.sh，内容如下：
 ```
 # Unity 程序路径
 UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
@@ -112,7 +112,7 @@ XUPorter 和 UnityEditor.iOS.Xcode 都是使用 C# 开发。Untiy 的 [PostProce
 
 ### 使用 Xcode-Tools
 
-新建 start.py，添加以下内容
+新建 start.py，添加以下内容：
 ```
 from xcodetools import *
 import sys
