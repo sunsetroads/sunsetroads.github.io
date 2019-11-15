@@ -112,7 +112,7 @@ XUPorter 和 UnityEditor.iOS.Xcode 都是使用 C# 开发。Untiy 的 [PostProce
 
 个人对 python 更熟悉一些，也基本没有手动出包的需求，就在 mod-pbxproj 的基础上开了一套 Xcode 相关工具 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools)，添加了对 Xcode Capability 的修改，并提供了配置文件来配置，方便 Untiy 开发人员使用。
 
-### 使用 [Xcode-Tools]
+### 使用 Xcode-Tools
 
 在 build.sh 中添加以下内容，ini 文件中包含来对 Xcode 的各种配置
 ```
