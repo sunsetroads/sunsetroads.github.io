@@ -108,21 +108,106 @@ Xcode 是通过 pbxproj 文件来查找项目中的文件和工程的编译配�
 
 XUPorter 和 UnityEditor.iOS.Xcode 都是使用 C# 开发。Untiy 的 [PostProcessBuild] 标签标注的函数会在导出 Xcode 后自动调用，我们可以在此函数中调用这两个插件来配置 Xcode，这样即使手动导出的 Xcode 也无需重复配置，是种不错的做法。
 
-**Xcode-Tools**
-
-个人对 python 更熟悉一些，也基本没有手动出包的需求，就在 mod-pbxproj 的基础上开了一套 Xcode 相关工具 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools)，添加了对 Xcode Capability 的修改，并提供了配置文件来配置，方便 Untiy 开发人员使用。
+个人对 python 更熟悉一些，也基本没有手动出包的需求，就在 mod-pbxproj 的基础上开了一套 Xcode 相关工具 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools)，添加了对 Xcode Capability 的修改，并提供了 ini 配置文件来表示 Xcode 中的各个选项，方便 Untiy 开发人员使用。
 
 ### 使用 Xcode-Tools
 
-在 build.sh 中添加以下内容，ini 文件中包含来对 Xcode 的各种配置
+新建 start.py，添加以下内容
 ```
+from xcodetools import *
+import sys
+
+# 获取执行脚本的参数
+if len(sys.argv) < 3:
+	print('''
+		usage:
+			请按以下方式启动(需要在ini文件中完成所需配置)
+			python3 [.ini 配置文件路径] [xcode工程路径] 
+		''')
+	exit()
+
+config_path = sys.argv[1]
+
+project_path = sys.argv[2]
+
+Xcode.modify(project_path, config_path)
+```
+
+在 build.sh 中追加以下内容
+```
+ini='./config.ini'
+project='/Users/sunsetroad/Desktop/demo'
+python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project}
+```
+
+至此，Xcode 工程已经完成了各种配置，剩下来就是打包的事了。
+
+## Xcode 工程导出 ipa 包
+Xcode 自动化打包网上教程已经太多了，我在 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools) 中封装了 Package 模块，传入所需参数即可导出一个 ipa 包。
+
+使用方法如下
+```
+from xcodetools import Package
+
+project_path = '/Users/zhangning/Desktop/testpbx'
+
+ipa_path = '/Users/zhangning/Desktop/IPA/test.ipa'
+
+plist = '/Users/zhangning/Desktop/ExportOptions.plist'
+
+# 开始自动打包
+Package.build (project_path, ipa_path, plist)
+```
+
+为了将所有操作放在一个脚本里，我们再修改一下上一步中的 start.py 和 build.sh。
+
+**start.py**
+```
+from xcodetools import *
+import sys
+
+# 获取执行脚本的参数
+if len(sys.argv) < 5:
+	print('''
+		usage:
+			请按以下方式启动(需要在ini文件中完成所需配置)
+			python3 [.ini 配置文件路径] [xcode工程路径] [ipa存放路径] [ExportOption.plist路径]
+		''')
+	exit()
+
+config_path = sys.argv[1]
+
+project_path = sys.argv[2]
+
+ipa_path = sys.argv[3]
+
+plist = sys.argv[4]
+
+Xcode.modify(project_path, config_path)
+
+Package.build(project_path, ipa_path, plist)
+
+```
+
+**build.sh**
+```
+# Unity 程序路径
+UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
+
+# Unity 工程路径
+PROJECT_PATH=/Users/sunsetroad/demo
+
+# iOSBuilder 中 SetUnityParams 会读取这些参数，并作用于 PlaySetting
+buildArgs="bundleIdentifier=test.com;bundleVersion=1.0;productName=test"
+
+# 执行 iOSBuilder 方法
+$UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project-$buildArgs -quit
+
 ini='./config.ini'
 project='/Users/sunsetroad/Desktop/demo'
 ipapath='/Users/sunsetroad/Documents/build/test.ipa'
 plist='/Users/sunsetroad/Desktop/ExportOptions.plist'
 python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project} ${ipapath} ${plist}
 ```
-
-## Xcode 工程导出 ipa 包
 
 ## Jenkins 一键打包
