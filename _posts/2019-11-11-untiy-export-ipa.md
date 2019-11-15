@@ -133,7 +133,7 @@ project_path = sys.argv[2]
 Xcode.modify(project_path, config_path)
 ```
 
-参考 [配置规则](https://github.com/sunsetroads/Xcode-Tools/blob/master/config.ini) 中的的，将 Xcode 配置写在一个 .ini 文件中，在 build.sh 中追加以下内容：
+参考 [配置规则](https://github.com/sunsetroads/Xcode-Tools/blob/master/config.ini)，将 Xcode 配置写在一个 .ini 文件中，然后在 build.sh 中追加以下内容：
 ```
 ini='/Users/sunsetroad/Desktop/config.ini'
 
@@ -163,8 +163,8 @@ Package.build (project_path, ipa_path, plist)
 
 为了将所有操作放在一个脚本里，我们再修改一下上一步中的 start.py 和 build.sh。
 
-**start.py**
 ```
+// start.py
 from xcodetools import *
 import sys
 
@@ -191,8 +191,9 @@ Package.build(project_path, ipa_path, plist)
 
 ```
 
-**build.sh**
 ```
+# build.sh
+
 # Unity 程序路径
 UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
 
