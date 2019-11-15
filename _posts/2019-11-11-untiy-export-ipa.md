@@ -142,7 +142,7 @@ project='/Users/sunsetroad/Desktop/demo'
 python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project}
 ```
 
-至此，Xcode 工程已经完成了各种配置，剩下来就是打包的事了。
+执行 build.sh，就会得到一个配置完善的 Xcode，剩下来就是打包的事了。
 
 ## Xcode 工程导出 ipa 包
 Xcode 自动化打包网上教程已经太多了，我在 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools) 中封装了 Package 模块，传入所需参数即可导出一个 ipa 包。
