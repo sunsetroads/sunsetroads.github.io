@@ -133,10 +133,12 @@ project_path = sys.argv[2]
 Xcode.modify(project_path, config_path)
 ```
 
-在 build.sh 中追加以下内容
+参考 [配置规则](https://github.com/sunsetroads/Xcode-Tools/blob/master/config.ini) 中的的，将 Xcode 配置写在一个 .ini 文件中，在 build.sh 中追加以下内容：
 ```
-ini='./config.ini'
+ini='/Users/sunsetroad/Desktop/config.ini'
+
 project='/Users/sunsetroad/Desktop/demo'
+
 python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project}
 ```
 
@@ -145,7 +147,7 @@ python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project}
 ## Xcode 工程导出 ipa 包
 Xcode 自动化打包网上教程已经太多了，我在 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools) 中封装了 Package 模块，传入所需参数即可导出一个 ipa 包。
 
-使用方法如下
+使用方法如下：
 ```
 from xcodetools import Package
 
@@ -204,9 +206,13 @@ buildArgs="bundleIdentifier=test.com;bundleVersion=1.0;productName=test"
 $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project-$buildArgs -quit
 
 ini='./config.ini'
+
 project='/Users/sunsetroad/Desktop/demo'
+
 ipapath='/Users/sunsetroad/Documents/build/test.ipa'
+
 plist='/Users/sunsetroad/Desktop/ExportOptions.plist'
+
 python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py ${ini} ${project} ${ipapath} ${plist}
 ```
 
