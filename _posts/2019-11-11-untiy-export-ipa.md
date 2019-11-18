@@ -138,7 +138,7 @@ Xcode 自动化打包网上教程已经太多了，我在 [Xcode-Tools](https://
 ```
 from xcodetools import Package
 
-project_path = '/Users/sunsetroad/Desktop/testpbx'
+project_path = '/Users/sunsetroad/Desktop/test'
 
 ipa_path = '/Users/sunsetroad/Desktop/IPA/test.ipa'
 
@@ -150,13 +150,13 @@ Package.build (project_path, ipa_path, plist)
 
 为了将所有操作放在一个脚本里，我们再修改一下上一步中的 start.py 和 build.sh，并将每次打包时会变的参数改为从环境变量中获取。
 
+**start.py**
 ```
-// start.py
 from xcodetools import *
 
 config_path ='/Users/sunsetroad/Desktop/config.ini'
 
-project_path = '/Users/sunsetroad/Desktop/testpbx'
+project_path = '/Users/sunsetroad/Desktop/test'
 
 ipa_path = '/Users/sunsetroad/Desktop/IPA/test.ipa'
 
@@ -168,10 +168,8 @@ Package.build(project_path, ipa_path, plist)
 
 ```
 
-这里仅为示例，需要结合业务需求，将对应的参数设置为从环境变量中换取。
+**build.sh**
 ```
-# build.sh
-
 bundleIdentifier=$1
 bundleVersion=$2
 commitId=$3
@@ -220,6 +218,6 @@ python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py
 
 ## 总结
 
-本文介绍了如何使用脚本来执行 Untiy 导出 iOS 包的每一步操作，并在最好将一些参数配置在 Jenkins 上，借助于 Jenkins 的参数化构建功能，让非开发人员也可以自由打包。
+本文介绍了如何使用脚本来执行 Untiy 导出 iOS 包的每一步操作，并在最后将一些参数配置在 Jenkins 上，借助于 Jenkins 的参数化构建功能，让非开发人员也可以自由打包。
 
-在例子中只要在 Jenkins 上选择一个包名，填一下版本号和 git commitId 即可打出一个包，这里的参数仅为示例，本文主要提供了一种自动化构建的思路，使用时需要结合业务需求，在各个环节间新增脚本任务或参数。
+在例子中只要在 Jenkins 上选择一个包名，填一下版本号和 git commitId 即可打出一个包，这里的参数仅为示例，主要是提供了一种自动化构建的思路，使用时需要结合业务需求，在各个环节间新增脚本任务或参数。
