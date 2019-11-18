@@ -116,7 +116,6 @@ XUPorter 和 UnityEditor.iOS.Xcode 都是使用 C# 开发。Untiy 的 [PostProce
 新建 start.py，添加以下内容：
 ```
 from xcodetools import *
-import sys
 
 config_path ='/Users/sunsetroad/Desktop/config.ini'
 
@@ -154,7 +153,6 @@ Package.build (project_path, ipa_path, plist)
 ```
 // start.py
 from xcodetools import *
-import sys
 
 config_path ='/Users/sunsetroad/Desktop/config.ini'
 
