@@ -220,3 +220,8 @@ python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py
 
 ![](/images/jenkins_start.png)
 
+## 总结
+
+本文介绍了如何使用脚本来执行 Untiy 导出 iOS 包的每一步操作，并在最好将一些参数配置在 Jenkins 上，借助于 Jenkins 的参数化构建功能，让非开发人员也可以自由打包。
+
+在例子中只要在 Jenkins 上选择一个包名，填一下版本号和 git commitId 即可打出一个包，这里的参数仅为示例，本文主要提供了一种自动化构建的思路，使用时需要结合业务需求，在各个环节间新增脚本任务或参数。
