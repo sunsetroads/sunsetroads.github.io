@@ -120,7 +120,7 @@ import sys
 
 config_path ='/Users/sunsetroad/Desktop/config.ini'
 
-project_path = '/Users/sunset/Desktop/testpbx'
+project_path = '/Users/sunsetroad/Desktop/test'
 
 Xcode.modify(project_path, config_path)
 ```
@@ -206,15 +206,17 @@ python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py
 ./build.sh bundleIdentifier bundleVersion commitId
 ```
 
-**在 Jenkins 中勾选参数化构建，并配置以下参数：**
+**使用 Jenkins 参数化构建功能**
+
+在 Jenkins 配置中勾选参数化构建，并添加以下参数：
 
 ![](/images/jenkins_param.png)
 
-**添加 shell 构建指令：**
+添加执行 shell 指令：
 
 ![](/images/jenkins_shell.png)
 
-**启动该配置，设置相关参数后点击开始构建。**
+启动该配置，设置相关参数后点击开始构建。
 
 ![](/images/jenkins_start.png)
 
