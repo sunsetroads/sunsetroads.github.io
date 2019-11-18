@@ -8,7 +8,7 @@ keywords: Unity, ios, jenkins
 
 Unity 打 iOS 平台的包过程很繁琐，有时候测试人员也需要不同类型的包来验证问题，出包需求较频繁。如果都由开发人员来出包会比较浪费时间，梳理整个流程后发现很多操作是重复的，不同类型的包区别在于版本号、游戏内容（可以用 git commitId 或 svn 版本号来表示）和一些业务参数，我们可以将这些参数由 Jenkins 配置，再结合 Shell、Python 脚本执行参数化构建，实现整个流程的自动化，让测试人员也可以打自己需要的包。
 
-Unity 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如何用脚本来执行，最后用 Jenkins 将整个流程串起来，实现在 Jenkins 网页上选择参数后一键打包。
+Unity 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如何用脚本来执行，最后用 Jenkins 将整个流程串起来，实现在 Jenkins 上选择参数后一键打包。
 
 1. Unity 工程导出 Xcode 工程
 2. 配置 Xcode 工程，往 Xcode 里添加 iOS SDK 文件并修改 Xcode 编译配置
@@ -96,7 +96,7 @@ $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project
 这里的参数都是可灵活配置的，为后面 Jenkins 一键打包做准备。
 
 ## 配置 Xcode 工程
-Unity 应用有时候需要调用一些 iOS 原生的 Api，通常会在 C# 层定义好 C 的接口然后直接调用，在 OC 层去实现对应的接口。我们需要在导出 Xcode 后做一些配置，添加一些 OC 文件和依赖库，以及修改一些编译配置，比如将 Enable Bitcode 设置为 No。
+Unity 应用有时候会需要调用一些 iOS 原生的 Api，这个交互流程这里不做详述，通常是在 C# 层定义好接口然后直接调用，然后在 OC 层去实现对应的接口。这时候就需要在导出 Xcode 后添加一些 OC 文件和依赖库，以及修改一些编译配置。
 
 ### 操作 Xcode 配置的几种方法
 Xcode 是通过 pbxproj 文件来查找项目中的文件和工程的编译配置，pbxproj 通过 交叉 UUID 来索引，不方便直接读取和修改，下面这些库都是用来操作 pbxproj 文件的。
