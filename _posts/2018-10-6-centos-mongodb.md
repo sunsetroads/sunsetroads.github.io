@@ -1,6 +1,6 @@
 ---
 layout: wiki
-title: CentOS 中 MongoDB 配置流程
+title: Linux 中 MongoDB 配置流程
 categories: Linux
 description: CentOS 中 MongoDB 配置流程
 keywords: CentOS MongoDB linux
@@ -34,7 +34,7 @@ security:
 ```
 ##### 启动服务
 ```
- mongod --config /usr/local/etc/mongod.conf
+mongod --config /usr/local/etc/mongod.conf
 ```
 
 ##### 进入MongoDB交互shell
