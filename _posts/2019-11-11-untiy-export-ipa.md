@@ -6,7 +6,7 @@ description: Unity 自动化导出 iOS 包
 keywords: Unity, ios, jenkins
 ---
 
-Unity 打 iOS 平台的包过程比较繁琐，手动操作会比较浪费时间还容易出错。我们可以将出包参数由 Jenkins 配置，再结合 Shell、Python 脚本执行参数化构建，实现整个流程的自动化。
+Unity 打 iOS 平台的包过程比较繁琐，手动操作会比较浪费时间还容易出错。这里把一些出包参数放在了 Jenkins 上配置，再结合 Shell、Python 脚本执行参数化构建，实现整个流程的自动化。
 
 Unity 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如何用脚本来执行，最后用 Jenkins 将整个流程串起来，实现在 Jenkins 上选择参数后一键打包。
 
