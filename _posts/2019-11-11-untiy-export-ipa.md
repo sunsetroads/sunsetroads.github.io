@@ -16,11 +16,7 @@ Unity 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如
 
 ## Unity 工程导出 Xcode 工程
 ### 使用 UnityEditor 中 Xcode 相关的 Api
-`UnityEditor` 提供了生成 Xcode 和配置 Xcode 的 Api。
-
-`UnityEditor.BuildPipeline`提供了一个函数`BuildPlayer`用来从 Untiy 工程导出成 Xcode 工程。
-
-`UnityEditor.PlayerSettings`提供了各种修改 Xcode 工程基础配置的 Api，比如包名、版本号。
+**UnityEditor** 提供了生成 Xcode 和修改 Xcode 工程配置的 Api。
 
 在 Unity 工程 Editor 目录下新建一个 iOSBuilder.cs，内容如下：
 ```
@@ -34,6 +30,7 @@ public class iOSBuilder:Editor
 	public static void Build()
 	{
 		SetUnityParams ();
+		// UnityEditor.BuildPipeline 提供了一个函数`BuildPlayer`用来从 Untiy 工程导出成 Xcode 工程。
 		BuildPipeline.BuildPlayer(ProjectBuilder.GetBuildScenes(), "/Users/sunsetroad/Desktop/test", BuildTarget.iOS, BuildOptions.None);
 	}
 
@@ -59,7 +56,7 @@ public class iOSBuilder:Editor
 				continue;
 			switch (argSprite[0].Trim())
 			{
-				// 仅为示例，需要结合需要需求添加对应的选项
+				// UnityEditor.PlayerSettings 提供了各种修改 Xcode 工程基础配置的 Api，比如包名、版本号等
 				case "bundleIdentifier":
 					PlayerSettings.applicationIdentifier = argSprite[1];
 					break;
