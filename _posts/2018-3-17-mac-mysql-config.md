@@ -49,3 +49,10 @@ mysql -h 主机名 -u 用户名 -p
 - -h : 指定客户端所要登录的 MySQL 主机名, 登录本机该参数可以省略。
 - -u : 登录的用户名。
 - -p : 使用一个密码来登录, 如果所要登录的用户名密码为空, 可以忽略此选项。
+
+
+**备注**
+
+先记录下，后面用到时再添加。
+
+其它 MySql 相关命令查看 [MySql 教程](https://www.runoob.com/mysql/mysql-tutorial.html) 。
