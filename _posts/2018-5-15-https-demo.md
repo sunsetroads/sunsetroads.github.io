@@ -1,10 +1,6 @@
----
-layout: post
-title: 使用自签名证书搭建 HTTPS 服务
-categories: iOS
-description: 使用自签名证书搭建 HTTPS 服务
-keywords: HTTPS, iOS, node.js
----
+algorithm
+
+介绍 HTTPS 是如何保证安全传输
 
 HTTPS 的核心是 SSL/TLS协议。SSL/TLS 是一种介与于传输层（比如TCP/IP）和应用层（比如HTTP）的协议。它通过「握手协议(Handshake Protocol)」和「传输协议(Record Protocol)」来解决传输安全的问题。SSL/TLS 是一个可选层，没有它，使用 HTTP 也可以通信，它存在的目的就是为了解决安全问题，这也就是 HTTPS 相对于 HTTP 的精髓所在。
 
