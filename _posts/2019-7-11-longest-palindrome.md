@@ -28,6 +28,8 @@ keywords: algorithm
 * 从最长字符串开始遍历，一旦找到回文子串，立即返回。
 * 判断是否回文使用收缩法，从最外一堆字符向中心推进
 
+![](/images/algorithm_shrink.jpg)
+
 **Swift 实现**
 ```
 class Solution {
