@@ -75,3 +75,47 @@ class Solution {
     }
 }
 ```
+
+### 中心扩展算法
+
+回文串一定是对称的，所以我们可以每次循环选择一个中心点，进行左右扩展，判断左右字符是否相等即可。
+
+字符串个数为奇数时总共有 n 个中心点，偶数时有 n - 1 个中心点，所以中心点会有 2n - 1 个，时间复杂度为 O(n^2)。
+
+![](/images/algorithm_expand.png)
+
+**Swift 实现**
+
+```
+class Solution {
+    func longestPalindrome(_ s: String) -> String {
+        if s.count <= 1 {
+            return s
+        }
+        
+        let arr = Array(s)
+        var start = 0, end = 0
+        
+        for i in 0..<arr.count {
+            let len1 = expand(arr, i, i)
+            let len2 = expand(arr, i, i + 1)
+            let len = max(len1, len2)
+            if len > end - start + 1 {
+                start = i - (len - 1)/2
+                end = i + len/2
+            }
+        }
+    
+        return String(arr[start...end])
+    }
+    
+    func expand(_ s:[Character], _ low:Int, _ high:Int) -> Int {
+        var l = low, h = high
+        while l >= 0 && h < s.count && s[l] == s[h]{
+            l -= 1
+            h += 1
+        }
+        return h - l - 1
+    }
+}
+```
