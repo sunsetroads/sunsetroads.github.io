@@ -7,9 +7,9 @@ keywords: keyword1, keyword2
 ---
 
 ```
- dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
-    });
+});
     
     NSInteger a = 0;
     for (NSInteger i = 0; i < 10000000000; i ++) {
