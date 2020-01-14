@@ -10,7 +10,7 @@ keywords: keyword1, keyword2
 
 ### 举个例子
 
-`People`类的`eat()`函数依赖于`Food`类，通常会这样实现：
+`People`类的`eat()`函数依赖于`Food`类，可能会有这样实现：
 ```
 class People {
     init() {
