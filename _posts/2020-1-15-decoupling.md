@@ -1,7 +1,7 @@
 ---
 layout: post
 title: 解耦套路之依赖注入
-categories: Design Patterns
+categories: DesignPatterns
 description: 解耦套路之依赖注入
 keywords: keyword1, keyword2
 ---
