@@ -6,7 +6,7 @@ description: Swift 中的 Copy-On-Write
 keywords: Copy On Write
 ---
 
-Swift 中的 Array Dictionary 类型都是作为值类型传递的，但值类型的传递可能会带来性能问题，这里模仿一些 Copy-On-Write 机制来进行优化。
+Swift 中的 Array Dictionary 类型都是作为值类型传递的，但值类型的传递可能会带来性能问题，这里模仿一下 Copy-On-Write 机制来进行优化。
 
 举个例子，想象一下有1000个元素的数组。如果将该数组复制到另一个变量中，则即使两个数组最终相同，Swift也必须复制所有1000个元素。
 
