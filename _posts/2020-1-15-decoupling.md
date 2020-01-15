@@ -110,8 +110,10 @@ let w = People(food: food)
 不同语言会有对应的容器框架，框架内部会读取配置文件、注解等信息，在程序预编译、编译期或者运行期间读取配置来生成需要的对象，有些会直接插入代码，有些会在运行时利用反射技术来生成。
 
 iOS 中可以参考的容器框架:
-* [GitHub - atomicobject/objection: A lightweight dependency injection framework for Objective-C](https://github.com/atomicobject/objection)
 * [GitHub - appsquickly/Typhoon: Powerful dependency injection for iOS & OSX (Objective-C & Swift)](https://github.com/appsquickly/Typhoon)
+
+* [GitHub - atomicobject/objection: A lightweight dependency injection framework for Objective-C](https://github.com/atomicobject/objection)
+
 
 ### 依赖注入的好处
 * 声明式的依赖让依赖关系更直观，也方便写测试用例
