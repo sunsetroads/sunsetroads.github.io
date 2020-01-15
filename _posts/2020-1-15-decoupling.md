@@ -114,6 +114,7 @@ iOS 中可以参考的容器框架:
 
 * [GitHub - atomicobject/objection: A lightweight dependency injection framework for Objective-C](https://github.com/atomicobject/objection)
 
+**选择容器框架时要慎重，谨慎使用那些对项目侵入严重的，比如先让你继承它的一个类...**
 
 ### 依赖注入的好处
 * 声明式的依赖让依赖关系更直观，也方便写测试用例
