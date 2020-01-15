@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 避免滥用单例
+title: 避免滥用单例模式
 categories: DesignPatterns
 description: 避免滥用单例
 keywords: SingletonPattern
