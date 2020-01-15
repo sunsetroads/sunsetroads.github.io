@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 使用 Jenkins 从 Unity 工程中自动化导出 iOS 包
+title: 使用 Jenkins 从 Unity 工程自动化导出 iOS 包
 categories: Unity
 description: Unity 自动化导出 iOS 包
 keywords: Unity, ios, jenkins
