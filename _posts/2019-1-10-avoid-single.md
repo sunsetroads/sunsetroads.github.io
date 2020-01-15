@@ -67,8 +67,10 @@ class B {
 
 let config = Config()
 ...
+...
 let b = B(config: config)
 b.doSomething()
+...
 ...
 let a = A(config: b.config)
 a.doSomething()
@@ -81,7 +83,7 @@ a.doSomething()
 
 有时候我们不得不使用单例，但使用前应该先思考这些问题：
 
-* 这个类表达的含义真的只能有一个实例么？（如UIApplication）还是只是为了好调用而已？
+* 这个类表达的含义真的只能有一个实例么？（如 UIApplication）还是只是为了好调用而已？
 * 这个单例持有的内存是否需要一直存在？
 * 是否能用类方法代替？
 * 这个单例对象是否能成为另一个单例对象的属性？如果是，应该作为属性
