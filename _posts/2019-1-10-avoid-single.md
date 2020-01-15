@@ -66,11 +66,10 @@ class B {
 }
 
 let config = Config()
+...
 let b = B(config: config)
 b.doSomething()
-
 ...
-
 let a = A(config: b.config)
 a.doSomething()
 ```
