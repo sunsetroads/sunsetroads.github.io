@@ -8,10 +8,11 @@ keywords: SingletonPattern
 
 单例是一种很常见的设计模式，iOS 也提供了很多单例对象，比如 UIApplication、NSUserDefaults 等。但在我看过一些代码里，有很多本不需要使用单例的地方，从而带来一些不必要的麻烦，本文用来讲述一些单例的弊端和如何避免他们。
 
-
 **单例模式**
 
 > 保证一个类仅有一个实例，并提供一个访问它的全局访问点
+
+## 单例带来的一些问题
 
 我们应该都用过单例，或许你见过类似这样的代码：
 
@@ -19,6 +20,8 @@ keywords: SingletonPattern
 class Singleton {
     static let shared = Singleton()
     var state: Int = 0
+    private init() {
+    }
 }
 
 class A {
@@ -72,7 +75,7 @@ class B {
 
 问题的其实在于这个 Config 对象是否真的像 UIApplication、NSUserDefaults 一样全局存在的？如果本不会全局存在却使用了单例，那就不只是存在潜在耦合了，更可能出现一些意想不到的异常。
 
-## 单例的误用
+**一个更严重的问题：**
 
 在某些情况下，一个对象可能需要在整个进程中存在较长时间。例如，一个多账号系统的 App，登陆后有一个 User 对象保存了用户的头像、昵称等信息，在多个页面可能需要用到这个 User 对象，这时把 User 对象做成单例可能就是个错误的做法，因为系统存在注销功能，登陆后应该是一个新的对象了。
 
@@ -82,15 +85,12 @@ class B {
 class Singleton {
     static let shared = Singleton()
     var currentUser:User?
+    private init() {
+    }
 }
 
 class User {
-    var nickName:String
-    var avatar:UIImage
-    init(nickName:String, avatar:UIImage) {
-        self.nickName = nickName
-        self.avatar = avatar
-    }
+
 }
 ```
 当用户注销后可以将`Singleton.shared.currentUser`置为`nil`，登陆后设置为新的`User`。
@@ -129,7 +129,7 @@ class Homepage {
 
 如何处理全局共享的状态是一个难题，在面向对象编程中我们本应该最小化可变状态的作用域，但是单例却让可变的状态可以在程序中的任何地方访问，从而站在了对立面。
 
-如果设计初期决定使用单例对象，请先思考这些问题：
+单例让状态变得混乱，程序难以测试，开发过程中应尽量避免使用。如果设计初期决定使用，那么请先思考这些问题：
 
 1. 这个类表达的含义真的只能有一个实例么？还是只是为了好调用而已？
 2. 这个单例持有的内存是否需要一直存在？
