@@ -31,7 +31,7 @@ public class iOSBuilder:Editor
 	{
 		SetUnityParams ();
 		// UnityEditor.BuildPipeline 提供了一个函数`BuildPlayer`用来从 Untiy 工程导出成 Xcode 工程。
-		BuildPipeline.BuildPlayer(ProjectBuilder.GetBuildScenes(), "/Users/sunsetroad/Desktop/test", BuildTarget.iOS, BuildOptions.None);
+		BuildPipeline.BuildPlayer(ProjectBuilder.GetBuildScenes(), "/Users/zhangning/Desktop/test", BuildTarget.iOS, BuildOptions.None);
 	}
 
 	void SetUnityParams()
@@ -82,7 +82,7 @@ public class iOSBuilder:Editor
 UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
 
 # Unity 工程路径
-PROJECT_PATH=/Users/sunsetroad/demo
+PROJECT_PATH=/Users/zhangning/demo
 
 # iOSBuilder 中 SetUnityParams 会读取这些参数，并作用于 PlaySetting
 buildArgs="bundleIdentifier=test.com;bundleVersion=1.0"
@@ -106,40 +106,40 @@ Xcode 是通过 pbxproj 文件来查找项目中的文件和工程的编译配�
 
 XUPorter 和 UnityEditor.iOS.Xcode 都是使用 C# 开发。Untiy 的 [PostProcessBuild] 标签标注的函数会在导出 Xcode 后自动调用，我们可以在此函数中调用这两个插件来配置 Xcode，这样即使手动导出的 Xcode 也无需重复配置，是种不错的做法。
 
-个人对 python 更熟悉一些，也基本没有手动出包的需求，就在 mod-pbxproj 的基础上开了一套 Xcode 相关工具 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools)，添加了对 Xcode Capability 的修改，并提供了 ini 配置文件来表示 Xcode 中的各个选项，方便 Untiy 开发人员使用。
+个人对 python 更熟悉一些，也基本没有手动出包的需求，就在 mod-pbxproj 的基础上开了一套 Xcode 相关工具 [XcodeEditor](https://github.com/sunsetroads/XcodeEditor)，添加了对 Xcode Capability 的修改，并提供了 ini 配置文件来表示 Xcode 中的各个选项，方便 Untiy 开发人员使用。
 
-### 使用 Xcode-Tools
+### 使用 XcodeEditor
 
 新建 start.py，添加以下内容：
 ```
 from xcodetools import *
 
-config_path ='/Users/sunsetroad/Desktop/config.ini'
+config_path ='/Users/zhangning/Desktop/config.ini'
 
-project_path = '/Users/sunsetroad/Desktop/test'
+project_path = '/Users/zhangning/Desktop/test'
 
 Xcode.modify(project_path, config_path)
 ```
 
-参考 [配置规则](https://github.com/sunsetroads/Xcode-Tools/blob/master/config.ini)，将 Xcode 配置写在一个 .ini 文件中，然后在 build.sh 中追加以下内容：
+参考 [配置规则](https://github.com/sunsetroads/XcodeEditor/blob/master/config.ini)，将 Xcode 配置写在一个 .ini 文件中，然后在 build.sh 中追加以下内容：
 ```
-python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py
+python3 /Users/zhangning/Desktop/XcodeEditor/start.py
 ```
 
 执行 build.sh，就会得到一个配置完善的 Xcode，剩下来就是打包的事了。
 
 ## Xcode 工程导出 ipa 包
-Xcode 自动化打包网上教程已经太多了，我在 [Xcode-Tools](https://github.com/sunsetroads/Xcode-Tools) 中封装了 Package 模块，传入所需参数即可导出一个 ipa 包。
+Xcode 自动化打包网上教程已经太多了，我在 [XcodeEditor](https://github.com/sunsetroads/XcodeEditor) 中封装了 Package 模块，传入所需参数即可导出一个 ipa 包。
 
 使用方法如下：
 ```
 from xcodetools import Package
 
-project_path = '/Users/sunsetroad/Desktop/test'
+project_path = '/Users/zhangning/Desktop/test'
 
-ipa_path = '/Users/sunsetroad/Desktop/IPA/test.ipa'
+ipa_path = '/Users/zhangning/Desktop/IPA/test.ipa'
 
-plist = '/Users/sunsetroad/Desktop/ExportOptions.plist'
+plist = '/Users/zhangning/Desktop/ExportOptions.plist'
 
 # 开始自动打包
 Package.build (project_path, ipa_path, plist)
@@ -151,13 +151,13 @@ Package.build (project_path, ipa_path, plist)
 ```
 from xcodetools import *
 
-config_path ='/Users/sunsetroad/Desktop/config.ini'
+config_path ='/Users/zhangning/Desktop/config.ini'
 
-project_path = '/Users/sunsetroad/Desktop/test'
+project_path = '/Users/zhangning/Desktop/test'
 
-ipa_path = '/Users/sunsetroad/Desktop/IPA/test.ipa'
+ipa_path = '/Users/zhangning/Desktop/IPA/test.ipa'
 
-plist = '/Users/sunsetroad/Desktop/ExportOptions.plist'
+plist = '/Users/zhangning/Desktop/ExportOptions.plist'
 
 Xcode.modify(project_path, config_path)
 
@@ -175,7 +175,7 @@ commitId=$3
 UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
 
 # Unity 工程路径
-PROJECT_PATH=/Users/sunsetroad/demo
+PROJECT_PATH=/Users/zhangning/demo
 
 # 更新工程
 cd ${PROJECT_PATH}
@@ -189,7 +189,7 @@ buildArgs="bundleIdentifier=${bundleIdentifier};bundleVersion=${bundleVersion}"
 $UNITY_PATH -projectPath ${PROJECT_PATH} -executeMethod iOSBuilder.Build project-$buildArgs -quit
 
 # 配置 Xcode 并打包
-python3 /Users/sunsetroad/Desktop/Xcode-Tools/start.py
+python3 /Users/zhangning/Desktop/XcodeEditor/start.py
 ```
 
 ## Jenkins 一键打包
