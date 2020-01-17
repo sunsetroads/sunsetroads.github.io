@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 查找字符串中的最长回文子串
+title: 查找最长回文子串
 categories: Algorithm
 description: 最长回文子串
 keywords: algorithm
