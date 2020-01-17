@@ -121,7 +121,7 @@ project_path = '/Users/zhangning/Desktop/test'
 Xcode.modify(project_path, config_path)
 ```
 
-参考 [配置规则](https://github.com/sunsetroads/XcodeEditor/blob/master/config.ini)，将 Xcode 配置写在一个 .ini 文件中，然后在 build.sh 中追加以下内容：
+参考 [配置规则](https://github.com/sunsetroads/XcodeEditor/blob/master/test.ini)，将 Xcode 配置写在一个 .ini 文件中，然后在 build.sh 中追加以下内容：
 ```
 python3 /Users/zhangning/Desktop/XcodeEditor/start.py
 ```
