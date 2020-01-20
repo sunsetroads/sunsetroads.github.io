@@ -105,7 +105,7 @@ vi ~/crontab/mongod_bak.sh
 ```
 **脚本内容**
 
-```
+```shell
 #!/bin/sh
 DUMP=mongodump
 OUT_DIR=/data/backup/mongod/tmp   // 备份文件临时目录

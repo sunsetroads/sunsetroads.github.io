@@ -29,7 +29,7 @@ load 和 initialize 是 Objective-C runtime 会自动调用的两个类方法，
 
 很多写在 - application:didFinishLaunchingWithOptions: 中的代码都只是为了在程序启动时获得一次调用机会，多为某些模块的初始化工作，如：
 
-```
+```objc
 - (BOOL)application:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // ...
@@ -41,7 +41,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 
 利用 Notification 的方式在自己的模块内部搞定
 
-```
+```objc
 /// FooModule.m
 + (void)load
 {
@@ -59,7 +59,7 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 #### 2. 完成类的的 Hook,Patch 等等
 结合 Method Swizzling 替换 viewWillAppear 方法
 
-```
+```objc
 @interface UIViewController (MethodModified)
 
 @end

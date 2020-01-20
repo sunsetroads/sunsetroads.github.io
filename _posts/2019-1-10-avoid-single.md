@@ -85,7 +85,7 @@ class B {
 
 把这些存在时期较长的对象做成单例的属性或许可以解决这个问题：
 
-```
+```swift
 class Singleton {
     static let shared = Singleton()
     var currentUser:User?
@@ -100,7 +100,7 @@ class User {
 当用户注销后可以将`Singleton.shared.currentUser`置为`nil`，登陆后设置为新的`User`。
 
 如何使用这个 User 对象呢？请不要像下面这样：
-```
+```swift
 class Homepage {
     func doSomething() {
         DispatchQueue.global().async {
@@ -112,7 +112,7 @@ class Homepage {
 这样使用可能会有问题，如果一个页面在后台异步执行的任务用到了`Singleton.shared.currentUser`，而恰好该用户注销而导致`Singleton.shared.currentUser = nil`，这可能会引起一些错误。
 
 使用依赖注入解决这个问题：
-```
+```swift
 class Homepage {
     var user:User
     init(currentUser:User) {

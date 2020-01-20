@@ -58,7 +58,7 @@ $ openssl x509 -req -days 3650 -in server.csr -signkey server.key -out server.cr
 ```
 ### 服务端配置
 引入系统的 https 模块即可（其它语言类似），也可以通过 Nginx 配置实现。以 node.js 为例：
-```
+```js
 const express = require('express')
 const path = require('path')
 const app = express()
@@ -108,7 +108,7 @@ app.get('/', function (req, res) {
 ```
 ### 客户端配置
 客户端需要将证书放在客户端内，并信任该证书。这里iOS 使用 AFNetworking 来发起请求，下面是配置信任自签名证书的过程
-```
+```objc
 NSString *cerPath = [[NSBundle mainBundle] pathForResource:@"ca" ofType:@"cer"];
 NSData* caCert = [NSData dataWithContentsOfFile:cerPath];
 NSSet * certSet = [[NSSet alloc]initWithObjects:certData, nil];

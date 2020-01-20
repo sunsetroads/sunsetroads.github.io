@@ -36,7 +36,7 @@ keywords: algorithm
 ![](/images/algorithm_shrink.jpg)
 
 **Swift 实现**
-```
+```swift
 class Solution {
     func longestPalindrome(_ s: String) -> String {
         let arr = Array(s)
@@ -84,7 +84,7 @@ class Solution {
 
 **Swift 实现**
 
-```
+```swift
 class Solution {
     func longestPalindrome(_ s: String) -> String {
         if s.count <= 1 {

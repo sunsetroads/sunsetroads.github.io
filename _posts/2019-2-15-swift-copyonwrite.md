@@ -14,7 +14,7 @@ Swift 中的 Array Dictionary 类型都是作为值类型传递的，但值类�
 
 Copy-On-Write 解决了此问题，参照下面的例子，当您将两个变量指向同一数组时，它们都指向相同的基础数据。当您对第二个变量进行修改时，Swift 会在此时进行完整复制，以便仅修改第二个变量而第一个不变。
 
-```
+```swift
 func address(of object: UnsafeRawPointer) -> String {
     let addr = Int(bitPattern: object)
     return String(format: "%p", addr)
@@ -41,7 +41,7 @@ address(of: array2)     // 0x60000200cd60
 ### 手动实现 Copy-On-Write
 
 先创建一个用于 Copy-On-Write 的结构体
-```
+```swift
 struct User {
     var identifier = 1
 }
@@ -50,7 +50,7 @@ struct User {
 
 `class` 是一种引用类型，当我们将引用类型分配给另一个引用类型时，这两个变量将共享同一实例，而不是像值类型一样复制它。这里创建一个 Ref 类，用于包装我们的值类型
 
-```
+```swift
 final class Ref<T> {
     var value: T
     init(value: T) {
@@ -61,7 +61,7 @@ final class Ref<T> {
 ```
 
 然后，我们再创建一个struct包装Ref：
-```
+```swift
 struct Box<T> {
     private var ref: Ref<T>
     init(value: T) {
@@ -85,7 +85,7 @@ struct Box<T> {
 
 然后，当我们第一次更改两个`Box`变量中的一个时，我们创建一个`ref`属性的新实例：
 
-```
+```swift
 guard isKnownUniquelyReferenced(&ref) else {
     ref = Ref(value: newValue)
     return
@@ -97,7 +97,7 @@ guard isKnownUniquelyReferenced(&ref) else {
 `isKnownUniquelyReferenced`返回一个布尔值，该布尔值表示给定对象是否具有单个强引用。
 
 这里是整个代码：
-```
+```swift
 final class Ref<T> {
     var value: T
     init(value: T) {
@@ -124,7 +124,7 @@ struct Box<T> {
 }
 ```
 我们可以像这样使用这种包装：
-```
+```swift
 let user = User()
 
 let box = Box(value: user)

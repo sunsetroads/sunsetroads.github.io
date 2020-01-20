@@ -8,10 +8,10 @@ keywords: keyword1, keyword2
 
  Spring 是 Java 最火的框架了，控制反转（IoC）是 Spring 框架的核心，依赖注入（DI）是它的实现方式，本文用来学习理解这种编程思想，具体的实现要根据使用的语言来选择对应的容器框架。
 
-### 举个例子
+### 为什么需要控制反转（IoC）
 
-`People`类的`eat()`函数依赖于`Food`类，可能会这样实现：
-```
+举个例子，`People`类的`eat()`函数依赖于`Food`类，可能会这样实现：
+```swift
 class People {
     init() {
     }
@@ -36,7 +36,7 @@ w.eat()
 
 但现在假如要动态获取食物种类，将`name`作为初始化参数动态配置，就需要做下面的修改：
 
-```
+```swift
 class People {
     var food:Food
     init(foodName:String) {
@@ -66,7 +66,7 @@ w.eat()
 ### 依赖注入
 这里我们用构造方法传递的依赖注入方式重写`People`类：
 
-```
+```swift
 class People {
     var food:Food
     init(food:Food) {
@@ -99,7 +99,7 @@ w.eat()
 依赖注入带来了新的问题，我们在初始化一个对象时，同时要去初始化它依赖的类，依赖链长时需要写很多初始化代码，IoC 容器解决了这个问题。
 
 其实这段代码就可以看作一个容器
-```
+```swift
 let food = Food(name: "炸鸡")
 let w = People(food: food)
 ```

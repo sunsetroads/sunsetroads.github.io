@@ -19,7 +19,7 @@ Unity 打 iOS 包的流程，可以看做下面三步，下面讲解每一步如
 **UnityEditor** 提供了生成 Xcode 和修改 Xcode 工程配置的 Api。
 
 在 Unity 工程 Editor 目录下新建一个 iOSBuilder.cs，内容如下：
-```
+```csharp
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -77,7 +77,7 @@ public class iOSBuilder:Editor
 我们最终的目的是使用命令执行所有的操作，所以需要使用脚本调用`iOSBuilder.Build`。
 
 新建一个 build.sh，内容如下：
-```
+```shell
 # Unity 程序路径
 UNITY_PATH=/Applications/Unity/Unity.app/Contents/MacOS/Unity
 
@@ -111,7 +111,7 @@ XUPorter 和 UnityEditor.iOS.Xcode 都是使用 C# 开发。Untiy 的 [PostProce
 ### 使用 XcodeEditor
 
 新建 start.py，添加以下内容：
-```
+```py
 from xcodetools import *
 
 config_path ='/Users/zhangning/Desktop/config.ini'
@@ -122,7 +122,7 @@ Xcode.modify(project_path, config_path)
 ```
 
 参考 [配置规则](https://github.com/sunsetroads/XcodeEditor/blob/master/test.ini)，将 Xcode 配置写在一个 .ini 文件中，然后在 build.sh 中追加以下内容：
-```
+```shell
 python3 /Users/zhangning/Desktop/XcodeEditor/start.py
 ```
 
@@ -132,7 +132,7 @@ python3 /Users/zhangning/Desktop/XcodeEditor/start.py
 Xcode 自动化打包网上教程已经太多了，我在 [XcodeEditor](https://github.com/sunsetroads/XcodeEditor) 中封装了 Package 模块，传入所需参数即可导出一个 ipa 包。
 
 使用方法如下：
-```
+```py
 from xcodetools import Package
 
 project_path = '/Users/zhangning/Desktop/test'
@@ -148,7 +148,7 @@ Package.build (project_path, ipa_path, plist)
 为了将所有操作放在一个脚本里，我们再修改一下上一步中的 start.py 和 build.sh，并将每次打包时会变的参数改为从环境变量中获取。
 
 **start.py**
-```
+```py
 from xcodetools import *
 
 config_path ='/Users/zhangning/Desktop/config.ini'
@@ -166,7 +166,7 @@ Package.build(project_path, ipa_path, plist)
 ```
 
 **build.sh**
-```
+```shell
 bundleIdentifier=$1
 bundleVersion=$2
 commitId=$3
@@ -195,7 +195,7 @@ python3 /Users/zhangning/Desktop/XcodeEditor/start.py
 ## Jenkins 一键打包
 
 现在只要这样执行 build.sh 就可以得到一个需要的 ipa 包了
-```
+```shell
 ./build.sh bundleIdentifier bundleVersion commitId
 ```
 
