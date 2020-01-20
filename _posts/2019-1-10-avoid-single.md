@@ -18,7 +18,7 @@ keywords: SingletonPattern
 
 我们应该都用过单例，或许你见过类似这样的代码：
 
-```
+```swift
 class Singleton {
     static let shared = Singleton()
     var state: Int = 0
@@ -45,7 +45,7 @@ class B {
 
 全局状态让程序难以调试，既然 B 会影响到 A，那就应该明确他们的依赖关系，可以使用依赖注入的方式进行改造:
 
-```
+```swift
 struct Config {
     var state: Int = 0
 }
