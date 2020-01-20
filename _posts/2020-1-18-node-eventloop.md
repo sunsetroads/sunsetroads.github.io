@@ -1,8 +1,8 @@
 ---
 layout: post
-title: 笔记：深入浅出 `Node`.js
-categories: `Node`
-descript`IO`n: some word here
+title: 笔记：深入浅出 Node.js
+categories: Node
+description: some word here
 keywords: 异步 `IO`，非阻塞，单线程，事件驱动
 ---
 
