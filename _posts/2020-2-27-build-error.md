@@ -60,14 +60,14 @@ Xcode 调试时明明有值却显示 nil，po 命令报下面错误：
 
 ### 真机调试报错
 
-证书设置都没有问题，但无法在手机上运行，提示如下:
+Xcode 在手机上运行后卡在启动页，Xcode 提示如下:
 
->  iPhone has denied the launch request.
+> iPhone has denied the launch request.
 Internal launch error: process launch failed: failed to get the task for process 1304
 
-**解决办法**
+**暂时的解决办法**
 
-去 Edit Scheme 里将 Executable 改为 Ask on Lanuch
+去 Edit Scheme 里将 Executable 改为 Ask on Lanuch。目前还没找到真正有效的解决方法，网上说是 Xcode 的 bug，暂时这样解决。
 
 ![](/images/xcode/edit_scheme.png)
 
