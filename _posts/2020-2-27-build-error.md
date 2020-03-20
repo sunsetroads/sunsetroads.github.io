@@ -24,7 +24,7 @@ keywords: xcode, error
 ---
 ### armv7 的编译错误
 
-Untiy 开发人员反馈最近添加了 libuwa.a 库后出现下面的报错，但在 xcode 工程中将此库删除并重新添加后又不报错了。
+Untiy 开发人员反馈最近添加了 libuwa.a 库后出现下面的报错，但在 Xcode 工程中将此库删除并重新添加后又不报错了。
 
 测试发现，在 Xcode 的 Build Phases 中将此库调整顺序后也不报错。
 
