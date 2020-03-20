@@ -99,7 +99,7 @@ class User {
 ```
 当用户注销后可以将`Singleton.shared.currentUser`置为`nil`，登陆后设置为新的`User`。
 
-如何使用这个 User 对象呢？请不要像下面这样：
+这个`User`对象的使用也要避免这种情况：
 ```swift
 class Homepage {
     func doSomething() {
@@ -111,7 +111,7 @@ class Homepage {
 ```
 这样使用可能会有问题，如果一个页面在后台异步执行的任务用到了`Singleton.shared.currentUser`，而恰好该用户注销而导致`Singleton.shared.currentUser = nil`，这可能会引起一些错误。
 
-使用依赖注入解决这个问题：
+最好使用依赖注入的方式来使用这些`User`：
 ```swift
 class Homepage {
     var user:User
