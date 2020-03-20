@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Xcode 编译报错汇总
-categories: Git
+categories: Xcode
 description: Xcode 编译报错汇总
 keywords: xcode, error
 ---
