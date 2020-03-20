@@ -9,7 +9,7 @@ keywords: xcode, error
 公司主要做 Untiy 开发，Untiy 导出的 Xcode 工程经常会遇到一些编译错误，这里记录下遇到的报错和解决办法。其中问题描述尽量使用文字，以后可以复制 Xcode 中的错误日志来这里搜索。解决办法尽可能添加图片说明，方便不熟悉 Xcode 的人使用。
 
 ---
-**未定义符号**
+### 未定义符号
 
 这是出现过很多此的问题，一些 SDK 需要添加一些依赖库，但没有添加上：
  > Undefined symbols for architecture arm64:
@@ -22,7 +22,7 @@ keywords: xcode, error
 ![](/images/xcode/undefined_sym.png)
 
 ---
-**奇怪的编译错误**
+### armv7 的编译错误
 
 Untiy 开发人员反馈最近添加了 libuwa.a 库后出现下面的报错，但在 xcode 工程中将此库删除并重新添加后又不报错了。
 
@@ -39,7 +39,7 @@ Untiy 开发人员反馈最近添加了 libuwa.a 库后出现下面的报错，�
 参考：https://groups.google.com/forum/#!topic/pdfnet-sdk/b4EoBiH_zjc
 
 ---
-**Xcode 控制台 po text 报错**
+### Xcode 控制台 po text 报错
 
 Xcode 调试时明明有值却显示 nil，po 命令报下面错误：
 
@@ -58,7 +58,7 @@ Xcode 调试时明明有值却显示 nil，po 命令报下面错误：
 
 ---
 
-**真机调试报错**
+### 真机调试报错
 
 证书设置都没有问题，但无法在手机上运行，提示如下:
 
