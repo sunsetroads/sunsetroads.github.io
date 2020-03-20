@@ -26,7 +26,7 @@ keywords: xcode, error
 
 Untiy 开发人员反馈最近添加了 libuwa.a 库后出现下面的报错，但在 xcode 工程中将此库删除并重新添加后又不报错了。
 
-测试发现，在 Xcode Build Phases 将 此库调整顺序后也不报错。
+测试发现，在 Xcode 的 Build Phases 中将此库调整顺序后也不报错。
 
 > B/bl/blx thumb2 branch out of range  (71414688 max is+/-16MB)
 
