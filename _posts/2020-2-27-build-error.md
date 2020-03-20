@@ -36,7 +36,7 @@ Untiy 开发人员反馈最近添加了 libuwa.a 库后出现下面的报错，�
 
 ![](/images/xcode/undefined_sym.png)
 
-参考：https://groups.google.com/forum/#!topic/pdfnet-sdk/b4EoBiH_zjc
+参考：[https://groups.google.com/forum/#!topic/pdfnet-sdk/b4EoBiH_zjc](https://groups.google.com/forum/#!topic/pdfnet-sdk/b4EoBiH_zjc)
 
 ---
 ### Xcode 控制台 po text 报错
