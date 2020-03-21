@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Swift 中值类型的性能优化
-categories: iOS
+categories: Swift
 description: Swift 中的 Copy-On-Write
 keywords: Copy On Write
 ---
