@@ -27,7 +27,7 @@ keywords: ios, swift
 #endif
 ```
 
-#### 判断运行的系统
+#### 条件编译
 ```swift
 #if !os(Linux)
    // Matches macOS, iOS, watchOS, tvOS, and any other future platforms
@@ -55,4 +55,28 @@ struct Configuration {
 #if os(macOS)
 #error("MyLibrary is not supported on macOS.")
 #endif
+```
+#### 使用 Raw 字符串
+使用 # 来包裹的 Raw 字符串，里面的字符不会做处理，特别是一些转义字符。
+
+插值需要这样做:
+```swift
+let answer = 42
+let dontpanic = #"The answer is \#(answer)."#
+```
+这个对于正则的特别好用:
+```swift
+let regex1 = "\\\\[A-Z]+[A-Za-z]+\\.[a-z]+"
+let regex2 = #"\\[A-Z]+[A-Za-z]+\.[a-z]+"#
+```
+
+跨越多行的字符串可以使用`"""`来包裹。
+```swift
+let quotation = """
+The White Rabbit put on his spectacles. "Where shall I begin,
+please your Majesty?" he asked.
+
+"Begin at the beginning," the King said gravely, "and go on
+till you come to the end; then stop."
+"""
 ```
