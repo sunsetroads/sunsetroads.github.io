@@ -57,17 +57,15 @@ struct Configuration {
 #endif
 ```
 #### 使用 Raw 字符串
-使用 # 来包裹的 Raw 字符串，里面的字符不会做处理，特别是一些转义字符。
-
+使用`#`来包裹的 Raw 字符串，里面的字符不会做处理，特别是一些转义字符。对于正则的特别好用:
+```swift
+let regex1 = "\\\\[A-Z]+[A-Za-z]+\\.[a-z]+"
+let regex2 = #"\\[A-Z]+[A-Za-z]+\.[a-z]+"#
+```
 插值需要这样做:
 ```swift
 let answer = 42
 let dontpanic = #"The answer is \#(answer)."#
-```
-这个对于正则的特别好用:
-```swift
-let regex1 = "\\\\[A-Z]+[A-Za-z]+\\.[a-z]+"
-let regex2 = #"\\[A-Z]+[A-Za-z]+\.[a-z]+"#
 ```
 
 跨越多行的字符串可以使用`"""`来包裹。
