@@ -17,7 +17,7 @@ keywords: xcode, error
 
 **解决办法**
 
-根据提示，说明 libyim.a 引用到了未定义的符合，所以先查找_CLLocationmanager 的来源，发现属于 CoreLocation.framwork，这是一个系统库。在 Build Phases 里添加依赖即可:
+根据提示，说明 libyim.a 引用到了未定义的符号，所以先查找_CLLocationmanager 的来源，发现属于 CoreLocation.framwork，这是一个系统库。在 Build Phases 里添加依赖即可:
 
 ![](/images/xcode/undefined_sym.png)
 
@@ -34,7 +34,7 @@ Untiy 开发人员反馈最近添加了 libuwa.a 库后出现下面的报错，�
 
 最终在网上找到了原因，这是一个已知的 armv7 编译器链接错误，可以删除该库重新导入，或者将 Xcode 工程 BuildSetting 中的 Architectures 中的 armv7 删除掉：
 
-![](/images/xcode/undefined_sym.png)
+![](/images/xcode/armv7_error.png)
 
 参考：[https://groups.google.com/forum/#!topic/pdfnet-sdk/b4EoBiH_zjc](https://groups.google.com/forum/#!topic/pdfnet-sdk/b4EoBiH_zjc)
 
