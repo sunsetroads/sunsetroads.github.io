@@ -74,3 +74,15 @@ Internal launch error: process launch failed: failed to get the task for process
 ![](/images/xcode/exec.png)
 
 ---
+### C++ 混编使用 @import 错误
+
+使用 FaceBook 的 SDK 时，它的有个头文件使用了`@import`的写法，编译时出现下面的报错
+> use of @import when modules are disabled
+
+**解决办法**
+
+这是因为我们工程中存在`.mm`后缀的`C++`文件，需要在 Xcode 工程 Build Settings 里搜索`other c++ flags`，添加`-fcxx-modules`和`-fmodules`符号。
+
+![](/images/xcode/module-error.png)
+
+---
