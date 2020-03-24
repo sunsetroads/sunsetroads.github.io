@@ -81,8 +81,48 @@ Internal launch error: process launch failed: failed to get the task for process
 
 **解决办法**
 
-这是因为我们工程中存在`.mm`后缀的`C++`文件，需要在 Xcode 工程 Build Settings 里搜索`other c++ flags`，添加`-fcxx-modules`和`-fmodules`符号。
+这是因为我们工程中存在`.mm`后缀的`C++`文件，需要在 Xcode 工程 Build Settings 中 将 Enable Modules 设置为 Yes。
+
+![](/images/xcode/enable_module.png)
+
+
+然后搜索`other c++ flags`，添加`-fcxx-modules`和`-fmodules`符号。
 
 ![](/images/xcode/module-error.png)
+
+---
+
+### 在 Xcode 中使用动态库
+
+直接往 Xcode 工程中拖入一个库，编译虽然可以通过，但运行时会报一个 image not found 的错误，然后闪退。
+
+> dyld: Library not loaded: @rpath/AdjustSdk.framework/AdjustSdk
+  Referenced from: /private/var/containers/Bundle/Application/AD1BBE93-2E11-462B-AA2E-F5161C99345F/yjcq.app/Frameworks/npplaygamesdk.framework/npplaygamesdk
+  Reason: image not found
+
+**解决办法**
+
+这是因为 Adjust.framework 是一个动态库，往 Xcode 添加动态库时需要去 General 中找到该库，将 Do not Emebd 改为 Embed & sign
+
+![](/images/xcode/embed.png)
+
+**区分动态库和静态库**
+
+打开终端，使用 cd 命令进入 xxx.framework, 然后使用 file 命令查看该二进制文件，动态库会有**Mach-O dynamicallly**的标识。
+
+![](/images/xcode/dym.png)
+
+---
+
+**Modules 报错**
+
+导入一个 framework 后它的头文件出现报错
+> Include of non-modular header inside framework module
+
+**解决办法**
+
+去 Xcode 的 Build Setting 中将此项改为 Yes。
+
+![](/images/xcode/allow.png)
 
 ---
