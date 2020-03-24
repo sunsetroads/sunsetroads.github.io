@@ -23,7 +23,7 @@ keywords: xcode, error
 ![](/images/xcode/undefined_sym.png)
 
 ---
-### armv7 的编译错误
+### Armv7 的编译错误
 
 > B/bl/blx thumb2 branch out of range  (71414688 max is+/-16MB)
 
