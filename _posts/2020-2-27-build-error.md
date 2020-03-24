@@ -109,7 +109,9 @@ Xcode 在手机上运行后卡在启动页，Xcode 提示如上。
 
 ![](/images/xcode/embed.png)
 
-**区分动态库和静态库**
+---
+
+### 区分动态库和静态库
 
 打开终端，使用 cd 命令进入 xxx.framework, 然后使用 file 命令查看该二进制文件，动态库会有 **Mach-O dynamicallly** 的标识。
 
