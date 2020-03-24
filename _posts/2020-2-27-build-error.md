@@ -123,7 +123,7 @@ Xcode 在手机上运行后卡在启动页，Xcode 提示如上。
 
 > Include of non-modular header inside framework module
 
-导入一个 framework 后它的头文件出现报错
+导入一个 framework 后它的头文件出现报错。
 
 **解决办法**
 
