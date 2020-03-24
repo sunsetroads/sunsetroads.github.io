@@ -11,9 +11,10 @@ keywords: xcode, error
 ---
 ### 未定义符号
 
-这是出现过很多此的问题，一些 SDK 需要添加一些依赖库，但没有添加上：
  > Undefined symbols for architecture arm64:
  "0BJC_CLASS_$_CLLocationmanager", referenced 	from: objc-class-ref in libyim.a (Geographylocation.o)
+
+这是出现过很多此的问题，一些 SDK 需要添加一些依赖库，但没有添加上。
 
 **解决办法**
 
@@ -24,11 +25,11 @@ keywords: xcode, error
 ---
 ### armv7 的编译错误
 
-Untiy 开发人员反馈最近添加了 libuwa.a 库后出现下面的报错，但在 Xcode 工程中将此库删除并重新添加后又不报错了。
+> B/bl/blx thumb2 branch out of range  (71414688 max is+/-16MB)
+
+Untiy 开发人员反馈最近添加了 libuwa.a 库后出现这样的报错，但在 Xcode 工程中将此库删除并重新添加后又不报错了。
 
 测试发现，在 Xcode 的 Build Phases 中将此库调整顺序后也不报错。
-
-> B/bl/blx thumb2 branch out of range  (71414688 max is+/-16MB)
 
 **解决办法**
 
@@ -41,10 +42,10 @@ Untiy 开发人员反馈最近添加了 libuwa.a 库后出现下面的报错，�
 ---
 ### Xcode 控制台 po text 报错
 
-Xcode 调试时明明有值却显示 nil，po 命令报下面错误：
-
 >error: Couldnt materialize: couldnt get the value of variable text: variable not available 
 >error: errored out in Doexecute, couldn't Preparetoexecutejit Expression
+
+Xcode 调试时明明有值却显示 nil，po 命令报出现上面的提示。
 
 **解决办法**
 
@@ -60,10 +61,10 @@ Xcode 调试时明明有值却显示 nil，po 命令报下面错误：
 
 ### 真机调试报错
 
-Xcode 在手机上运行后卡在启动页，Xcode 提示如下:
-
 > iPhone has denied the launch request.
 Internal launch error: process launch failed: failed to get the task for process 1304
+
+Xcode 在手机上运行后卡在启动页，Xcode 提示如上。
 
 **暂时的解决办法**
 
@@ -76,8 +77,9 @@ Internal launch error: process launch failed: failed to get the task for process
 ---
 ### C++ 混编使用 @import 错误
 
-使用 FaceBook 的 SDK 时，它的有个头文件使用了`@import`的写法，编译时出现下面的报错
 > use of @import when modules are disabled
+
+使用 FaceBook 的 SDK 时，它的有个头文件使用了`@import`的写法，编译时出现这个报错。
 
 **解决办法**
 
@@ -94,30 +96,32 @@ Internal launch error: process launch failed: failed to get the task for process
 
 ### 在 Xcode 中使用动态库
 
-直接往 Xcode 工程中拖入一个库，编译虽然可以通过，但运行时会报一个 image not found 的错误，然后闪退。
-
 > dyld: Library not loaded: @rpath/AdjustSdk.framework/AdjustSdk
   Referenced from: /private/var/containers/Bundle/Application/AD1BBE93-2E11-462B-AA2E-F5161C99345F/yjcq.app/Frameworks/npplaygamesdk.framework/npplaygamesdk
   Reason: image not found
 
+
+直接往 Xcode 工程中拖入一个库，编译虽然可以通过，但运行时会报一个 image not found 的错误，然后闪退。
+
 **解决办法**
 
-这是因为 Adjust.framework 是一个动态库，往 Xcode 添加动态库时需要去 General 中找到该库，将 Do not Emebd 改为 Embed & sign
+这是因为 AdjustSdk.framework 是一个动态库，往 Xcode 添加动态库时需要去 General 中找到该库，将 Do not Emebd 改为 Embed & sign
 
 ![](/images/xcode/embed.png)
 
 **区分动态库和静态库**
 
-打开终端，使用 cd 命令进入 xxx.framework, 然后使用 file 命令查看该二进制文件，动态库会有**Mach-O dynamicallly**的标识。
+打开终端，使用 cd 命令进入 xxx.framework, 然后使用 file 命令查看该二进制文件，动态库会有 **Mach-O dynamicallly** 的标识。
 
 ![](/images/xcode/dym.png)
 
 ---
 
-**Modules 报错**
+### Modules 报错
+
+> Include of non-modular header inside framework module
 
 导入一个 framework 后它的头文件出现报错
-> Include of non-modular header inside framework module
 
 **解决办法**
 
