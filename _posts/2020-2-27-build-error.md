@@ -132,3 +132,21 @@ Xcode 在手机上运行后卡在启动页，Xcode 提示如上。
 ![](/images/xcode/allow.png)
 
 ---
+
+### Xcode 新的 Build System 问题
+
+> Multiple commands produce'/Users/zhangning/LibraryDeveloper/Xcode/DerivedData/UnityiPhone-beisrzhtuoxouebivefvjbofagvBuid/Products/Debug-iphoneos/test.app/Info.pist'...
+
+操作大概是删除了工程中的 Info.plist 再重新添加进去，然后报上面的错。
+
+**解决办法**
+
+去 Build Phases 的 Copy Bundle Resource 里将 Info.plist 删除。
+
+![](/images/xcode/bundle_res.png)
+
+如果不能解决可以去 Xcode 的 File > Project Settings 中选择使用旧的 Legacy Build System。
+
+![](/images/xcode/build_system.png)
+
+---
