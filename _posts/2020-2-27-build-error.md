@@ -150,10 +150,10 @@ Xcode 在手机上运行后卡在启动页，Xcode 提示如上。
 ![](/images/xcode/build_system.png)
 
 ---
-### 使用 @try{} @catch{} @finally{} 捕获异常
+### 使用 @try 捕获异常
 > Cannot use '@try' with Objective-C exceptions disabled
 
-使用 @try{} @catch{} @finally{} 的地方出现这种报错。
+OC 中使用 @try{} @catch{} @finally{} 的地方出现这种报错。
 
 **解决办法**
 
@@ -161,6 +161,6 @@ Xcode 在手机上运行后卡在启动页，Xcode 提示如上。
 
 ![](/images/xcode/exception.png)
 
-**iOS 中很少见人用这个，大家普遍使用 NSError 来处理异常。据说 Arc 下使用 Exception 不安全，暂未考证。**
+**在 iOS 中很少见人用这个，大家普遍使用 NSError 来处理异常。据说 Arc 下使用 Exception 不安全，存在内存管理问题，暂未详细了解。**
 
 ---
