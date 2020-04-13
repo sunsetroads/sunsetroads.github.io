@@ -67,10 +67,16 @@ let regex2 = #"\\[A-Z]+[A-Za-z]+\.[a-z]+"#
 let answer = 42
 let dontpanic = #"The answer is \#(answer)."#
 ```
+使用多个 # 号来消除歧义，前后 # 号数量要一致：
+```
+let a = ##"aaa"#"##
+print(a) // aaa"#
+```
 
 跨越多行的字符串可以使用`"""`来包裹。
 ```swift
-let quotation = """
+let quotation = 
+"""
 The White Rabbit put on his spectacles. "Where shall I begin,
 please your Majesty?" he asked.
 
