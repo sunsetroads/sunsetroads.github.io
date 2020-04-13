@@ -68,7 +68,7 @@ let answer = 42
 let dontpanic = #"The answer is \#(answer)."#
 ```
 使用多个 # 号来消除歧义，前后 # 号数量要一致：
-```
+```swift
 let a = ##"aaa"#"##
 print(a) // aaa"#
 ```
