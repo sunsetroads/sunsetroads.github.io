@@ -5,11 +5,11 @@ categories: Unity
 description: Mac 下 Mono-Unity 源码编译过程详解
 keywords: mono, unity
 ---
-[toc]
+
 Unity 打出的安卓包为了防止反编译，需要对 Assembly-CSharp.dll 加密处理。Assembly-CSharp.dll 是由 libmono.so 运行时读取然后在 mono 虚拟机上执行，所以需要修改 libmono.so 源码，在加载 Assembly-CSharp.dll 前解密处理，然后重新编译出 libmono.so。
 
 libmono.so 是由 Unity 官方 Fork 了开源的 Mono 编译出来的，Unity 官方也将其开源了，我们要编译的源码在这里：
-- https://github.com/Unity-Technologies/mono/tree/unity-2018.4
+- [https://github.com/Unity-Technologies/mono/tree/unity-2018.4]()
 
 这次我编译的是 Unity-2018.4 的，你也可以根据你的 Unity 版本下载对应分支的。
 
@@ -77,8 +77,7 @@ brew install autoconf
 ### 直接编译一下
 
 进入工程根目录 mono-untiy-2018.4，执行命令
-`
-./external/buildscripts/build_runtime_android.sh`开始编译:
+`./external/buildscripts/build_runtime_android.sh`开始编译:
 
 ![](/images/mono/build_start.png)
 
