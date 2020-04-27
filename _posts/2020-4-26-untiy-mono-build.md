@@ -15,7 +15,7 @@ libmono.so 是由 Unity 官方 Fork 了开源的 Mono 编译出来的，Unity �
 
 大多数人都经历过，照着别人的文档，甚至官方的，别人的操作成功了，自己的却一堆错 ...
 
-Mono-Unity 的编译环境比较复杂，依赖的工具链较多，不可避免也会有一些错误，这篇文章就用来讲述这个编译过程，附带我遇到的错误和解决办法，但更重要的是去了解这个流程，这样即使出现其他报错，也可以快速定位。
+Mono-Unity 的编译环境比较复杂，依赖的工具链较多，不可避免也会有一些错误，这篇文章就用来讲述这个编译过程，附带我遇到的错误和解决办法。了解这个编译的过程，这样即使出现其他报错，也可以快速定位。
 
 ## Mono-Unity 编译环境配置
 
@@ -42,7 +42,7 @@ Mono-Unity 的编译环境比较复杂，依赖的工具链较多，不可避免
 
 #### 使用 Ruby 脚本安装
 
-将 https://gist.github.com/sunsetroads/11c35fb3caef2980041b1fcb07ab9a31 的内容复制保存为 homebrew.rb，然后执行命令：
+将 [https://gist.github.com/sunsetroads/11c35fb3caef2980041b1fcb07ab9a31]() 的内容复制保存为 homebrew.rb，然后执行命令：
 ```
 ruby homebrew.rb
 ```
