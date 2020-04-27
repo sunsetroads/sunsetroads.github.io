@@ -91,10 +91,10 @@ brew install autoconf
 
 在网上搜了一会，没有好的解决办法，决定看下编译脚本的执行过程，来查找报错的根本原因。
 
-**这一步还可能提示缺少什么包，按提示执行`brew install 包名`即可。**
+*PS*：这一步还可能提示缺少什么包，按提示执行`brew install 包名`即可。
 
 ### 编译脚本执行过程
-build_runtime_android.sh 就是我们的入口脚本，先忽略掉杂要信息，看下它的关键内容：
+build_runtime_android.sh 就是入口脚本，先忽略掉杂要信息，看下它的关键内容：
 ```sh
 ...
 KRAIT_PATCH_PATH="${CWD}/../../android_krait_signal_handler/build"
