@@ -85,23 +85,13 @@ brew install autoconf
 
 ![](/images/mono/build_error.png)
 
-查看日志还发现了时间久的原因，下载了 NDK-r10e 后，又去下载了 r16 版本的，总共 1G 多的文件，比较浪费时间了：
+查看日志还发现了时间久的原因，下载了 NDK-r10e 后，又去下载了 NDK-r16，总共 1G 多的文件，比较浪费时间了：
 
 ![](/images/mono/build_ndk.png)
 
-这一步还可能提示缺少什么工具，按提示执行`brew install 工具名`即可。
+在网上搜了一会，没有好的解决办法，决定看下编译脚本的执行过程，来查找报错的根本原因。
 
-NDK 重复下载问题通过查看文档解决了，修改 Test/android_krait_signal_handler/build/build.pl， 将 "r16b" 改为 r10e。
-
-```pl
-sub BuildAndroid
-{
-	PrepareAndroidSDK::GetAndroidSDK(undef, undef, "r16b");
-	system('$ANDROID_NDK_ROOT/ndk-build clean');
-	system('$ANDROID_NDK_ROOT/ndk-build');
-}
-```
-
+**这一步还可能提示缺少什么包，按提示执行`brew install 包名`即可。**
 
 ### 编译脚本执行过程
 build_runtime_android.sh 就是我们的入口脚本，先忽略掉杂要信息，看下它的关键内容：
