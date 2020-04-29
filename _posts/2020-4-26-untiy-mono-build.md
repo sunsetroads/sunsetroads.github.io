@@ -117,7 +117,6 @@ function clean_build
 	fi
 
 	make && echo "Build SUCCESS!" || exit 1
-	...
 }
 
 perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl -ndk=r10e -env=envsetup.sh && source envsetup.sh
@@ -127,7 +126,7 @@ clean_build_krait_patch
 clean_build "$CCFLAGS_ARMv7_VFP" "$LDFLAGS_ARMv7" "$OUTDIR/armv7a"
 ```
 
-首先执行的`perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl`，注意这里传入的参数 ndk-r10e，再看下还后执行的`clean_build_krait_patch`，先去下载了 krait-signal-handler包，然后执行了它的 build.pl，看下 build.pl 内容：
+首先执行的`perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl`，注意这里传入的参数 ndk-r10e，再看下还后执行的`clean_build_krait_patch`，先去下载了 krait-signal-handler包，然后执行了它的 build.pl ：
 
 ```pl
 sub BuildAndroid
@@ -137,6 +136,20 @@ sub BuildAndroid
 	system('$ANDROID_NDK_ROOT/ndk-build');
 }
 ```
-这里传入的参数是 r16b，也就是说，构建脚本依赖的 NDK 版本和 krait-signal-handler 依赖的不一致，导致了重复下载，所以将 build.pl 中的 r16b 改为 r10e。
+这里传入的参数是 r16b，也就是说，构建脚本依赖的 NDK 版本和 krait-signal-handler 依赖的不一致，导致了重复下载，所以要去把 build.pl 中的 r16b 改为 r10e。
+
+编译脚本安装了依赖的环境后，接着往下执行`clean_build`:
+```sh
+make clean && make distclean
+
+./configure 
+
+if [ "$?" -ne "0" ]; then 
+	echo "Configure FAILED!"
+	exit 1
+fi
+
+make && echo "Build SUCCESS!" || exit 1
+```
 
 
