@@ -367,7 +367,7 @@ int main(int argc, const char * argv[]) {
 	//将这个路径替换为你加密后的 dll
     char *data = ReadStringFromFile("/Users/zhangning/Desktop/Assembly-CSharp.dll", &data_len);
     
-    char *_name = "/storage/emulated/0/Android/data/vn.funtap.tinhkiem.mobile3d/files/Android/Assembly-CSharp.dll";
+    char *_name = "/storage/emulated/0/Android/data/包名/files/Android/Assembly-CSharp.dll";
     char *dllBytes = ReadStringFromFile(_name, &dataszie);
     
     if (dataszie > 0)
