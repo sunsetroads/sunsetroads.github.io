@@ -5,8 +5,6 @@ categories: Unity
 description: Mac 下 Mono-Unity 源码编译详解
 keywords: mono, unity
 ---
-# Mac 下编译 libmono.so 和 DLL 加密详解
-[TOC]
 
 Unity 打出的安卓包为了防止反编译，需要对 Assembly-CSharp.dll 加密处理。Assembly-CSharp.dll 是由 libmono.so 运行时读取然后在 mono 虚拟机上执行，所以需要修改 libmono.so 源码，在加载 Assembly-CSharp.dll 前解密处理，然后重新编译出 libmono.so。
 
