@@ -72,11 +72,11 @@ brew install autoconf
 ```
 
 ## Mono-Unity 编译流程
-这里以 mono-untiy-2018.4 为例，下载后在桌面新建文件夹 Test/T，将下载下来的源码放入，编译脚本运行后会在源码工程上级目录安装依赖，这样建目录方便查看。
+这里以 mono-untiy-2018.4 为例，下载后在桌面新建文件夹 Test/T，将下载下来的源码放入，编译脚本运行后会在源码工程上级目录安装依赖，这样建目录会方便查看依赖包。
 
 ### 直接编译一下
 
-进入工程根目录 mono-untiy-2018.4，执行命令
+进入工程根目录 mono-untiy-2018.4，运行执行编译脚本
 `./external/buildscripts/build_runtime_android.sh`开始编译:
 
 ![](/images/mono/build_start.png)
@@ -154,7 +154,7 @@ make && echo "Build SUCCESS!" || exit 1
 
 这里需要了解下 configure 和 make 命令。
 
-#### Linux 编译源码流程
+### Linux 编译源码流程
 ./configure、make、make install 命令这些都是典型的使用 GNU 的 AUTOCONF 和 AUTOMAKE 产生的程序的安装步骤。
 
 在 Linux 下安装一个应用程序时，一般先运行脚本 configure，然后用 make 来编译源程序，在运行 make install，最后运行 make clean 删除一些临时文件。使用上述三个自动工具，就可以生成 configure 脚本。运行configure 脚本，就可以生成 Makefile 文件，然后就可以运行 make、make install 和 make clean。
