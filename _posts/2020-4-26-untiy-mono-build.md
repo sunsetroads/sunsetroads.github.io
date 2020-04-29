@@ -54,7 +54,7 @@ ruby homebrew.rb
 
 出现上图内容就说明 HomeBrew 安装成功了。
 
-### 使用 HomeBrew 安装 Mono-Unity 依赖
+### 使用 HomeBrew 安装依赖
 
 Mono-Unity 依赖下面这些包
 
@@ -72,11 +72,11 @@ brew install autoconf
 ```
 
 ## 编译 libmono.so
-这里以 mono-untiy-2018.4 为例，下载后在桌面新建文件夹 Test/T，将下载下来的源码放入，编译脚本运行后会在源码工程上级目录安装依赖，这样建目录会方便查看依赖包。
+这里以 mono-untiy-2018.4 为例，下载后在桌面新建文件夹 Test/T，将下载下来的源码放入，编译脚本运行后会在 mono-untiy-2018.4 上级目录安装依赖，这样建目录会方便查看依赖包。
 
 ### 直接编译一下
 
-进入工程根目录 mono-untiy-2018.4，运行执行编译脚本
+进入工程根目录 mono-untiy-2018.4，执行编译脚本
 `./external/buildscripts/build_runtime_android.sh`开始编译:
 
 ![](/images/mono/build_start.png)
@@ -154,13 +154,13 @@ make && echo "Build SUCCESS!" || exit 1
 
 ./configure、make、make install 命令这些都是典型的使用 GNU 的 AUTOCONF 和 AUTOMAKE 产生的程序的安装步骤，这里需要了解下 configure 和 make 命令。
 
-### Linux 编译源码流程
+### configure 和 make
 
 在 Linux 下安装一个应用程序时，一般先运行脚本 configure，然后用 make 来编译源程序，在运行 make install，最后运行 make clean 删除一些临时文件。使用上述三个自动工具，就可以生成 configure 脚本。运行configure 脚本，就可以生成 Makefile 文件，然后就可以运行 make、make install 和 make clean。
 
 configure 是一个 shell 脚本，它可以自动设定源程序以符合各种不同平台上 Unix 系统的特性，并且根据系统叁数及环境产生合适的 Makefile 文件或是 C 的头文件 (header file)，让源程序可以很方便地在这些不同的平台上被编译链接。
 
-运行 configure 脚本，就可产生出符合GNU规范的Makefile文件了，然后就可以运行make进行编译，再运行make install进行安装了，这里只需要编译。
+运行 configure 脚本，就可产生出符合 GNU 规范的 Makefile 文件了，然后就可以运行 make 进行编译，再运行 make install 进行安装了，这里只需要编译。
 
 引用自 [https://www.cnblogs.com/tinywan/p/7230039.html]()
 
@@ -171,7 +171,7 @@ configure 是一个 shell 脚本，它可以自动设定源程序以符合各种
 
 ![](/images/mono/build_mis_makefile.png)
 
-不熟悉 make 命令时还以为缺少什么环境，但其实编译失败和这个没关系，这是 configure 执行失败导致没有正常生成 MakeFile，make 命令找不到 MakeFile 文件后提示的，问题是出在 configure 脚本里。
+不熟悉 make 命令时还以为缺少什么环境，但其实编译失败和这个没关系，这是 configure 执行失败导致没有正常生成 Makefile，make 命令找不到 Makefile 文件后提示的，问题是出在 configure 脚本里。
 
 中间的日志都可以忽略，直接看最后的报错：
 
@@ -179,11 +179,44 @@ configure 是一个 shell 脚本，它可以自动设定源程序以符合各种
 
 这里提示 C compiler cannot create executables，检查了系统的 gcc 和 clang，都是可以正常编译 C 程序的，网上也找不到解决办法。于是去 config.log 查看更详细的信息。
 
-执行 configure 时好把执行过程的详细信息输出到 config.log，终端中输出的只是一份简要的，这两个文件都位于源码工程根目录下。打开 config.log，在里面搜 C compiler cannot create executables，可以看到出现这个错误前发生了一些 error。
+执行 configure 时会把执行过程的详细信息输出到 config.log，终端中输出的只是一份简要的，这两个文件都位于 mono-untiy-2018.4 根目录下。打开 config.log，在里面搜 C compiler cannot create executables，可以看到出现这个错误前发生了一些 error。
 
 ![](/images/mono/build_config_error.png)
 
-一个个来看这些 error，首先是 -V 和 -qvesion 问题，提示的是 arm-linux-androideabi-gcc 不支持这些参数，这个输出在 configure 的 4500 行，看下源码：
+来看这些 error，首先是 -V 和 -qvesion 问题，提示的是 arm-linux-androideabi-gcc 不支持这些参数，这个输出在 configure 的 4500 行，看下对应的代码：
+
 ![](/images/mono/complier_version_check.png)
 
 这段代码是用来检查 arm-linux-androideabi-gcc 版本的，尝试了 --version -v -V -qversion 四个参数，使用 --veesion 和 -v 就可以获取到了，其他的参数不适用也无所谓，这个并不是真正的错误原因。
+
+根据 error 发生的位置继续查看 configure 源码，从 4531 行到 4602 行，代码有点多，需要联系上下文才能理解。这段代码作用是来检查 NDK 中的 arm-linux-androideabi-gcc 是否正常，判断的标准是用它编译一段简单的 C 程序，然后查看是否生成了可执行文件。这里最终没有生成，所以抛出了个 C compiler cannot create executables。
+
+config.log 里提到发生了一个 ld 链接器错误，cannot find -lkrait-signal-handler，忽略掉杂要信息后， configure:4553 这一行是这样的：
+```
+arm-linux-androideabi-gcc -L/Test/T/mono-unity-2018.4/../../android_krait_signal_handler/build/obj/local/armeabi -lkrait-signal-handler conftest.c
+```
+意思是使用 arm-linux-androideabi-gcc 编译 conftest.c，并链接库 krait-signal-handler。
+
+GCC 会在 -L 选项后紧跟着的基本名称的基础上自动添加前缀 lib、后缀 .a，这里基本名称为 krait-signal-handler。现在去 -L 后面的路径下看下是否存在 libkrait-signal-handler.a：
+
+![](/images/mono/gcc_link.png)
+
+这时发现 libkrait-signal-handler.a 是存在的，只是前面的路径不对，configure 脚本以为 libkrait-signal-handler.a 位于 armabi 下，但实际编译出来的在 armabi-v7a，问题找到了，新建个 armabi 的目录将 krait-signal-handler.a 放入，再执行编译脚本。
+
+等待终端刷屏了近 10 分钟，输出了下面的信息：
+
+![](/images/mono/build_success.png)
+
+编译成功了，在 builds/embedruntimes/android 下可以看到不同 CPU 架构下的 libmono.so。
+
+### 编译选项优化
+
+修改 ./external/buildscripts/build_runtime_android.sh 文件, 在这个脚本中修改 `-fpic -g -funwind-tables \` 为 `-fpic -O2 -funwind-tables \`， `-g` 打出来的 libmono.so 是 debug 版本的，文件会比较大。
+
+修改 ./external/buildscripts/build_runtime_android_x86.sh，在这个脚本中把 `-fpic -g \` 修改为 `-fpic \`，这个修改据说是因为 x86 的编译选项和 arm 不一样，不去掉 `-g` 一些手机上进游戏会卡死。
+
+如果只需要 armv7a 和 x86 的，可以在 build_runtime_android.sh 中注释掉下面两项：
+
+`clean_build "$CCFLAGS_ARMv5_CPU" "$LDFLAGS_ARMv5" "$OUTDIR/armv5"` 
+
+`clean_build "$CCFLAGS_ARMv6_VFP" "$LDFLAGS_ARMv5" "$OUTDIR/armv6_vfp"`
