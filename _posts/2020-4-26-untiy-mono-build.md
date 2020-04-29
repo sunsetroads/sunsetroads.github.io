@@ -81,7 +81,7 @@ brew install autoconf
 
 ![](/images/mono/build_error.png)
 
-查看日志还发现了时间久的原因，下载了 NDK-r10e 后，又去下载了 NDK-r16，总共 1G 多的文件，比较浪费时间了：
+查看日志发现了时间久的原因，下载了 NDK-r10e 后，又去下载了 NDK-r16，总共 1G 多的文件，比较浪费时间了：
 
 ![](/images/mono/build_ndk.png)
 
@@ -197,7 +197,7 @@ GCC 会在 -L 选项后紧跟着的基本名称的基础上自动添加前缀 li
 
 ![](/images/mono/gcc_link.png)
 
-这时发现 libkrait-signal-handler.a 是存在的，只是前面的路径不对，configure 脚本以为 libkrait-signal-handler.a 位于 armabi 下，但实际编译出来的在 armabi-v7a，问题找到了，新建个 armabi 的目录将 krait-signal-handler.a 放入，再执行编译脚本。
+这时发现 libkrait-signal-handler.a 是存在的，只是前面的路径不对，configure 脚本以为 libkrait-signal-handler.a 位于 armabi 下，但实际编译出来的在 armabi-v7a，问题找到了，新建个 armabi 的目录将 libkrait-signal-handler.a 放入，再执行编译脚本。
 
 等待终端刷屏了近 10 分钟，输出了下面的信息：
 
