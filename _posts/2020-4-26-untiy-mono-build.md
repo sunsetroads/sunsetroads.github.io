@@ -1,8 +1,8 @@
 ---
 layout: post
-title: Mac 下 Mono-Unity 编译 libmono.so 过程详解
+title: Mac 下 Mono-Unity 编译 libmono.so 详解
 categories: Unity
-description: Mac 下 Mono-Unity 源码编译过程详解
+description: Mac 下 Mono-Unity 源码编译详解
 keywords: mono, unity
 ---
 
@@ -71,7 +71,7 @@ Mono-Unity 依赖下面这些包
 brew install autoconf
 ```
 
-## Mono-Unity 编译流程
+## Mono-Unity 编译 libmono.so
 这里以 mono-untiy-2018.4 为例，下载后在桌面新建文件夹 Test/T，将下载下来的源码放入，编译脚本运行后会在源码工程上级目录安装依赖，这样建目录会方便查看依赖包。
 
 ### 直接编译一下
@@ -126,7 +126,7 @@ clean_build_krait_patch
 clean_build "$CCFLAGS_ARMv7_VFP" "$LDFLAGS_ARMv7" "$OUTDIR/armv7a"
 ```
 
-首先执行的`perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl`，注意这里传入的参数 ndk-r10e，再看下后执行的`clean_build_krait_patch`，先去下载了 krait-signal-handler包，然后执行里面的 build.pl ：
+首先执行的`perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl`，注意这里传入的参数 ndk-r10e，再看下后执行的`clean_build_krait_patch`，先去下载了 krait-signal-handler 包，然后执行里面的 build.pl ：
 
 ```pl
 sub BuildAndroid
@@ -152,10 +152,9 @@ fi
 make && echo "Build SUCCESS!" || exit 1
 ```
 
-这里需要了解下 configure 和 make 命令。
+./configure、make、make install 命令这些都是典型的使用 GNU 的 AUTOCONF 和 AUTOMAKE 产生的程序的安装步骤，这里需要了解下 configure 和 make 命令。
 
 ### Linux 编译源码流程
-./configure、make、make install 命令这些都是典型的使用 GNU 的 AUTOCONF 和 AUTOMAKE 产生的程序的安装步骤。
 
 在 Linux 下安装一个应用程序时，一般先运行脚本 configure，然后用 make 来编译源程序，在运行 make install，最后运行 make clean 删除一些临时文件。使用上述三个自动工具，就可以生成 configure 脚本。运行configure 脚本，就可以生成 Makefile 文件，然后就可以运行 make、make install 和 make clean。
 
