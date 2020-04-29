@@ -300,7 +300,6 @@ MonoImage *
 mono_image_open_from_data_with_name (char *data, guint32 data_len, gboolean need_copy, MonoImageOpenStatus *status, gboolean refonly, const char *name)
 {
 	int dataszie = 0;
-    //original name like /data/app/packagename-1.apk/assets/bin/Data/Managed/Assembly-CSharp.dll
     g_message("mono: origianl path = %s\n", name);
     if (name != NULL && strstr(name, "Assembly-CSharp.dll"))
     {
@@ -318,7 +317,7 @@ mono_image_open_from_data_with_name (char *data, guint32 data_len, gboolean need
 	...
 }
 ```
-**注意 dll 的路径不要写错了，这里是直接写死**
+**注意 dll 的热更路径不要写错了，包名要换成对应的**
 
 ### 验证加密算法是否成功
 
