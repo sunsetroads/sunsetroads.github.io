@@ -1,17 +1,19 @@
 ---
 layout: post
-title: Mac 下 Mono-Unity 编译 libmono.so 详解
+title: Mac 下编译 libmono.so 和 DLL 加密详解
 categories: Unity
 description: Mac 下 Mono-Unity 源码编译详解
 keywords: mono, unity
 ---
+# Mac 下编译 libmono.so 和 DLL 加密详解
+[TOC]
 
 Unity 打出的安卓包为了防止反编译，需要对 Assembly-CSharp.dll 加密处理。Assembly-CSharp.dll 是由 libmono.so 运行时读取然后在 mono 虚拟机上执行，所以需要修改 libmono.so 源码，在加载 Assembly-CSharp.dll 前解密处理，然后重新编译出 libmono.so。
 
 libmono.so 是由 Unity 官方 Fork 了开源的 Mono 编译出来的，Unity 官方也将其开源了，需要根据你的 Unity 版本下载对应分支的，这次我编译的是 Unity-2018.4 的，源码在这里：
 - [https://github.com/Unity-Technologies/mono/tree/unity-2018.4]()
 
-本文不是傻瓜式教程告诉你如何编译的，而是用来讲述这个编译过程，附带我遇到的错误和解决思路。很多时候，照着别人的文档，甚至官方的，别人的操作成功了，自己的却一堆错，只有了解了原理，才能快速定位和解决问题。
+本文不是傻瓜式教程告诉你如何编译的，而是用来讲述这个编译过程，附带我遇到的错误和解决思路。很多时候，照着别人的文档，甚至官方的，别人的操作成功了，自己的却一堆错，只有了解了这个编译过程，才能快速定位和解决问题。
 
 ## 编译环境配置
 
@@ -70,7 +72,7 @@ brew install autoconf
 ## 编译 libmono.so
 这里以 mono-untiy-2018.4 为例，下载后在桌面新建文件夹 Test/T，将下载下来的源码放入，编译脚本运行后会在 mono-untiy-2018.4 上级目录安装依赖，这样建目录会方便查看依赖包。
 
-### 直接执行编译脚本
+### 执行编译脚本
 
 进入工程根目录 mono-untiy-2018.4，执行编译脚本
 `./external/buildscripts/build_runtime_android.sh`开始编译:
@@ -217,7 +219,7 @@ GCC 会在 -L 选项后紧跟着的基本名称的基础上自动添加前缀 li
 
 - `clean_build "$CCFLAGS_ARMv6_VFP" "$LDFLAGS_ARMv5" "$OUTDIR/armv6_vfp"`
 
-## DLL 加解密与热更
+## DLL 加密与热更
 
 ### 加密
 
@@ -393,7 +395,7 @@ int main(int argc, const char * argv[]) {
 
 ![](/images/mono/dll_normal.png)
 
-显示这样的结果就说明 dll 解密成功了，加密算法是没问题的。
+显示这样的结果就说明 dll 解密成功了，加密算法是没问题的。然后修改 image.c 重新编译就行了。
 
 ## 总结
 
