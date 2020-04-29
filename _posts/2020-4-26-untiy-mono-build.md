@@ -96,24 +96,12 @@ brew install autoconf
 ### 编译脚本执行过程
 build_runtime_android.sh 就是入口脚本，先忽略掉杂要信息，看下它的关键内容：
 ```sh
-...
-KRAIT_PATCH_PATH="${CWD}/../../android_krait_signal_handler/build"
-...
-# 执行 PrepareAndroidSDK.pl，它会下载 ndk-r10e，如果不存在的话
-perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl -ndk=r10e -env=envsetup.sh && source envsetup.sh
-...
-
 function clean_build_krait_patch
 {
 	# 检查是否有下载 krait-signal-handler，并执行 build.pl
+	KRAIT_PATCH_PATH="${CWD}/../../android_krait_signal_handler/build"
 	local KRAIT_PATCH_REPO="git://github.com/Unity-Technologies/krait-signal-handler.git"
-	if [ ${UNITY_THISISABUILDMACHINE:+1} ]; then
-			echo "Trusting TC to have cloned krait patch repository for us"
-	elif [ -d "$KRAIT_PATCH_PATH" ]; then
-			echo "Krait patch repository already cloned"
-	else
-			git clone --branch "master" "$KRAIT_PATCH_REPO" "$KRAIT_PATCH_PATH"
-	fi
+	git clone --branch "master" "$KRAIT_PATCH_REPO" "$KRAIT_PATCH_PATH"
 	(cd "$KRAIT_PATCH_PATH" && ./build.pl)
 }
 
@@ -132,12 +120,14 @@ function clean_build
 	...
 }
 
+perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl -ndk=r10e -env=envsetup.sh && source envsetup.sh
+
 clean_build_krait_patch
 
 clean_build "$CCFLAGS_ARMv7_VFP" "$LDFLAGS_ARMv7" "$OUTDIR/armv7a"
 ```
 
-`clean_build_krait_patch` 和 `perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl` 会先去下载一些依赖项，看下 `KRAIT_PATCH_PATH/build.pl`，这里发现了是
+首先执行的`perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl`，注意这里传入的参数 ndk-r10e，再看下还后执行的`clean_build_krait_patch`，先去下载了 krait-signal-handler包，然后执行了它的 build.pl，看下 build.pl 内容：
 
 ```pl
 sub BuildAndroid
@@ -147,4 +137,6 @@ sub BuildAndroid
 	system('$ANDROID_NDK_ROOT/ndk-build');
 }
 ```
+这里传入的参数是 r16b，也就是说，构建脚本依赖的 NDK 版本和 krait-signal-handler 依赖的不一致，导致了重复下载，所以将 build.pl 中的 r16b 改为 r10e。
+
 
