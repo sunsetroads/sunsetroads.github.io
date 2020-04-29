@@ -17,7 +17,7 @@ libmono.so 是由 Unity 官方 Fork 了开源的 Mono 编译出来的，Unity �
 
 Mono-Unity 的编译环境比较复杂，依赖的工具链较多，不可避免也会有一些错误，这篇文章就用来讲述这个编译过程，附带我遇到的错误和解决办法。了解这个编译的过程，这样即使出现其他报错，也可以快速定位。
 
-## Mono-Unity 编译环境配置
+## 编译环境配置
 
 编译 Untiy-Mono 需要安装一些编译脚本依赖的包。HomeBrew 是 MacOS 上的包管理工具，使用它安装这些依赖会很方便。
 
@@ -71,7 +71,7 @@ Mono-Unity 依赖下面这些包
 brew install autoconf
 ```
 
-## Mono-Unity 编译 libmono.so
+## 编译 libmono.so
 这里以 mono-untiy-2018.4 为例，下载后在桌面新建文件夹 Test/T，将下载下来的源码放入，编译脚本运行后会在源码工程上级目录安装依赖，这样建目录会方便查看依赖包。
 
 ### 直接编译一下
@@ -126,7 +126,7 @@ clean_build_krait_patch
 clean_build "$CCFLAGS_ARMv7_VFP" "$LDFLAGS_ARMv7" "$OUTDIR/armv7a"
 ```
 
-首先执行的`perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl`，注意这里传入的参数 ndk-r10e，再看下后执行的`clean_build_krait_patch`，先去下载了 krait-signal-handler 包，然后执行里面的 build.pl ：
+首先执行的`perl ${BUILDSCRIPTSDIR}/PrepareAndroidSDK.pl`，注意这里传入的参数 ndk-r10e。然后执行`clean_build_krait_patch`，先去下载了 krait-signal-handler 包，然后执行里面的 build.pl ：
 
 ```pl
 sub BuildAndroid
@@ -136,7 +136,7 @@ sub BuildAndroid
 	system('$ANDROID_NDK_ROOT/ndk-build');
 }
 ```
-这里传入的参数是 r16b，也就是说，构建脚本依赖的 NDK 版本和 krait-signal-handler 依赖的不一致，导致了重复下载，所以要去把 build.pl 中的 r16b 改为 r10e。
+这里 krait-signal-handler 中 build.pl 传入的参数是 r16b，也就是说，构建脚本依赖的 NDK 版本和 krait-signal-handler 依赖的不一致，导致了重复下载，所以要去把 build.pl 中的 r16b 改为 r10e。
 
 编译脚本安装了依赖的环境后，接着往下执行`clean_build`:
 ```sh
@@ -158,17 +158,32 @@ make && echo "Build SUCCESS!" || exit 1
 
 在 Linux 下安装一个应用程序时，一般先运行脚本 configure，然后用 make 来编译源程序，在运行 make install，最后运行 make clean 删除一些临时文件。使用上述三个自动工具，就可以生成 configure 脚本。运行configure 脚本，就可以生成 Makefile 文件，然后就可以运行 make、make install 和 make clean。
 
-configure 是一个 shell 脚本，它可以自动设定源程序以符合各种不同平台上 Unix 系统的特性，并且根据系统叁数及环境产生合适的 Makefile 文件或是 C 的头文件 (header file)，让源程序可以很方便地在这些不同的平台上被编译连接。
+configure 是一个 shell 脚本，它可以自动设定源程序以符合各种不同平台上 Unix 系统的特性，并且根据系统叁数及环境产生合适的 Makefile 文件或是 C 的头文件 (header file)，让源程序可以很方便地在这些不同的平台上被编译链接。
 
 运行 configure 脚本，就可产生出符合GNU规范的Makefile文件了，然后就可以运行make进行编译，再运行make install进行安装了，这里只需要编译。
 
 引用自 [https://www.cnblogs.com/tinywan/p/7230039.html]()
 
 ### 错误查找过程
-了解了编译脚本的执行过程后，可以开始根据执行的 log 找问题在哪了
-在上面编译失败的 log 中可以看到`make: *** No rule to make target 'clean'.  Stop`：
+了解了编译脚本的执行过程后，可以开始根据执行的 log 找编译失败的原因了。
 
-![](/images/mono/build_makefile.png)
+在上面编译失败的 log 中可以看到一句`make: *** No rule to make target 'clean'.  Stop`：
 
+![](/images/mono/build_mis_makefile.png)
 
-这是 configure 执行失败导致没有正常生成 MakeFile，make 命令找不到 MakeFile 文件后提示的，编译失败和这个没关系。
+不熟悉 make 命令时还以为缺少什么环境，但其实编译失败和这个没关系，这是 configure 执行失败导致没有正常生成 MakeFile，make 命令找不到 MakeFile 文件后提示的，问题是出在 configure 脚本里。
+
+中间的日志都可以忽略，直接看最后的报错：
+
+![](/images/mono/build_error.png)
+
+这里提示 C compiler cannot create executables，检查了系统的 gcc 和 clang，都是可以正常编译 C 程序的，网上也找不到解决办法。于是去 config.log 查看更详细的信息。
+
+执行 configure 时好把执行过程的详细信息输出到 config.log，终端中输出的只是一份简要的，这两个文件都位于源码工程根目录下。打开 config.log，在里面搜 C compiler cannot create executables，可以看到出现这个错误前发生了一些 error。
+
+![](/images/mono/build_config_error.png)
+
+一个个来看这些 error，首先是 -V 和 -qvesion 问题，提示的是 arm-linux-androideabi-gcc 不支持这些参数，这个输出在 configure 的 4500 行，看下源码：
+![](/images/mono/complier_version_check.png)
+
+这段代码是用来检查 arm-linux-androideabi-gcc 版本的，尝试了 --version -v -V -qversion 四个参数，使用 --veesion 和 -v 就可以获取到了，其他的参数不适用也无所谓，这个并不是真正的错误原因。
