@@ -152,7 +152,7 @@ make && echo "Build SUCCESS!" || exit 1
 
 ### configure 和 make
 
-在 Linux 下安装一个应用程序时，一般先运行脚本 configure，然后用 make 来编译源程序，在运行 make install，最后运行 make clean 删除一些临时文件。
+在 Linux 下安装一个应用程序时，一般先运行脚本 configure，然后用 make 来编译源程序，再运行 make install，最后运行 make clean 删除一些临时文件。
 
 configure 是一个 shell 脚本，它可以自动设定源程序以符合各种不同平台上 Unix 系统的特性，并且根据系统叁数及环境产生合适的 Makefile 文件或是 C 的头文件 (header file)，让源程序可以很方便地在这些不同的平台上被编译链接。
 
@@ -169,7 +169,7 @@ configure 是一个 shell 脚本，它可以自动设定源程序以符合各种
 
 不熟悉 make 命令时还以为缺少什么环境，但其实编译失败和这个没关系，这是 configure 执行失败导致没有正常生成 Makefile，make 命令找不到 Makefile 文件后提示的，问题是出在 configure 脚本里。
 
-中间的日志有很多干扰信息，都可以忽略，直接看最后的报错：
+configure 执行的过程会检查系统环境，中间的日志有很多干扰信息，都可以忽略，只需要关注最后的报错：
 
 ![](/images/mono/build_error.png)
 
