@@ -15,7 +15,7 @@ libmono.so 是由 Unity 官方 Fork 了开源的 Mono 编译出来的，Unity �
 
 ## 编译环境配置
 
-首先需要配置下 Mac 环境，编译 Untiy-Mono 需要安装一些编译脚本依赖的包。HomeBrew 是 MacOS 上的包管理工具，使用它安装这些依赖会很方便。
+首先需要配置下 Mac 环境，编译 libmono.so 需要安装一些编译脚本依赖的包。HomeBrew 是 MacOS 上的包管理工具，使用它安装这些依赖会很方便。
 
 ### 安装 HomeBrew
 安装 HomeBrew 有时候不太顺利，这里提供 3 种安装方式，安装失败时可以切换试试。
@@ -161,7 +161,7 @@ configure 是一个 shell 脚本，它可以自动设定源程序以符合各种
 引用自 [https://www.cnblogs.com/tinywan/p/7230039.html]()
 
 ### 错误查找过程
-了解了编译脚本的执行过程后，可以开始根据执行的 log 找编译失败的原因了。
+了解了编译脚本的执行过程后，可以开始根据执行时的 log 找编译失败的原因了。
 
 在上面编译失败的 log 中可以看到一句`make: *** No rule to make target 'clean'.  Stop`：
 
@@ -169,7 +169,7 @@ configure 是一个 shell 脚本，它可以自动设定源程序以符合各种
 
 不熟悉 make 命令时还以为缺少什么环境，但其实编译失败和这个没关系，这是 configure 执行失败导致没有正常生成 Makefile，make 命令找不到 Makefile 文件后提示的，问题是出在 configure 脚本里。
 
-中间的日志都可以忽略，直接看最后的报错：
+中间的日志有很多干扰信息，都可以忽略，直接看最后的报错：
 
 ![](/images/mono/build_error.png)
 
@@ -187,7 +187,7 @@ configure 是一个 shell 脚本，它可以自动设定源程序以符合各种
 
 根据 error 发生的位置继续查看 configure 源码，从 4531 行到 4602 行，代码有点多，需要联系上下文才能理解。这段代码作用是来检查 NDK 中的 arm-linux-androideabi-gcc 编译器是否正常，判断的标准是用它编译一段简单的 C 程序，然后查看是否生成了可执行文件。这里最终没有生成，所以抛出了个 C compiler cannot create executables 错误。
 
-config.log 里提到发生了一个 ld 链接器错误，cannot find -lkrait-signal-handler，忽略掉杂要信息后， configure:4553 这一行是这样的：
+config.log 还提到发生了一个 ld 链接器错误，cannot find -lkrait-signal-handler，忽略掉杂要信息后， configure:4553 这一行是这样的：
 ```
 arm-linux-androideabi-gcc -L/Test/T/mono-unity-2018.4/../../android_krait_signal_handler/build/obj/local/armeabi -lkrait-signal-handler conftest.c
 ```
@@ -294,7 +294,7 @@ static char *ReadStringFromFile(const char *pathName, int *size)
 }
 ```
 
-mono_image_open_from_data_with_name 中添加代码：
+然后在 mono_image_open_from_data_with_name 函数中添加代码：
 ```c
 MonoImage *
 mono_image_open_from_data_with_name (char *data, guint32 data_len, gboolean need_copy, MonoImageOpenStatus *status, gboolean refonly, const char *name)
@@ -388,7 +388,7 @@ int main(int argc, const char * argv[]) {
 
 ```
 
-运行上方的解密代码后，用 file 命令查看 test.dll：
+运行上方的解密代码后，再次使用 file 命令查看 test.dll：
 
 ![](/images/mono/dll_normal.png)
 
