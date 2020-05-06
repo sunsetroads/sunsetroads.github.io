@@ -9,7 +9,7 @@ keywords: mono, unity
 Unity 打出的安卓包为了防止反编译，需要对 Assembly-CSharp.dll 加密处理。Assembly-CSharp.dll 是由 libmono.so 运行时读取然后在 mono 虚拟机上执行，所以需要修改 libmono.so 源码，在加载 Assembly-CSharp.dll 前解密处理，然后重新编译出 libmono.so。
 
 libmono.so 是由 Unity 官方 Fork 了开源的 Mono 编译出来的，Unity 官方也将其开源了，需要根据你的 Unity 版本下载对应分支的，这次我编译的是 Unity-2018.4 的，源码在这里：
-- [https://github.com/Unity-Technologies/mono/tree/unity-2018.4]()
+- [https://github.com/Unity-Technologies/mono/tree/unity-2018.4](https://github.com/Unity-Technologies/mono/tree/unity-2018.4)
 
 本文不是傻瓜式教程告诉你如何编译的，而是用来讲述这个编译过程，附带我遇到的错误和解决思路。很多时候，照着别人的文档，甚至官方的，别人的操作成功了，自己的却一堆错，只有了解了这个编译过程，才能快速定位和解决问题。
 
@@ -17,7 +17,7 @@ libmono.so 是由 Unity 官方 Fork 了开源的 Mono 编译出来的，Unity �
 
 首先需要配置下 Mac 环境，编译 libmono.so 需要安装一些编译脚本依赖的包。HomeBrew 是 MacOS 上的包管理工具，使用它安装这些依赖会很方便。
 
-### 安装 HomeBrew
+### 安装 HomeBrew 
 安装 HomeBrew 有时候不太顺利，这里提供 3 种安装方式，安装失败时可以切换试试。
 
 #### 按官网教程安装
@@ -38,7 +38,7 @@ libmono.so 是由 Unity 官方 Fork 了开源的 Mono 编译出来的，Unity �
 
 #### 使用 Ruby 脚本安装
 
-将 [https://gist.github.com/sunsetroads/11c35fb3caef2980041b1fcb07ab9a31]() 的内容复制保存为 homebrew.rb，然后执行命令：
+将 [https://gist.github.com/sunsetroads/11c35fb3caef2980041b1fcb07ab9a31](https://gist.github.com/sunsetroads/11c35fb3caef2980041b1fcb07ab9a31) 的内容复制保存为 homebrew.rb，然后执行命令：
 ```
 ruby homebrew.rb
 ```
@@ -158,7 +158,7 @@ configure 是一个 shell 脚本，它可以自动设定源程序以符合各种
 
 运行 configure 脚本，就可产生出符合 GNU 规范的 Makefile 文件了，然后就可以运行 make 进行编译，再运行 make install 进行安装了，这里只需要编译。
 
-引用自 [https://www.cnblogs.com/tinywan/p/7230039.html]()
+引用自 [https://www.cnblogs.com/tinywan/p/7230039.html](https://www.cnblogs.com/tinywan/p/7230039.html)
 
 ### 错误查找过程
 了解了编译脚本的执行过程后，可以开始根据执行时的 log 找编译失败的原因了。
