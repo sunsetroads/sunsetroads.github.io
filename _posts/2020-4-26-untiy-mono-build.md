@@ -185,6 +185,8 @@ configure 执行的过程会检查系统环境，中间的日志有很多干扰�
 
 这段代码是用来检查 arm-linux-androideabi-gcc 版本的，尝试了 --version -v -V -qversion 四个参数，使用 --veesion 和 -v 就可以获取到了，其他的参数不适用也无所谓，这个并不是真正的错误原因。
 
+**再此重申下：configure 的执行过程还会检查一些其他的环境，导致执行过程会出现错误的 log，但这些都不用管，只需要关注最后的错误**
+
 根据 error 发生的位置继续查看 configure 源码，从 4531 行到 4602 行，代码有点多，需要联系上下文才能理解。这段代码作用是来检查 NDK 中的 arm-linux-androideabi-gcc 编译器是否正常，判断的标准是用它编译一段简单的 C 程序，然后查看是否生成了可执行文件。这里最终没有生成，所以抛出了个 C compiler cannot create executables 错误。
 
 config.log 还提到发生了一个 ld 链接器错误，cannot find -lkrait-signal-handler，忽略掉杂要信息后， configure:4553 这一行是这样的：
