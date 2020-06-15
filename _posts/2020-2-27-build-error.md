@@ -14,7 +14,7 @@ keywords: xcode, error
  > Undefined symbols for architecture arm64:
  "0BJC_CLASS_$_CLLocationmanager", referenced 	from: objc-class-ref in libyim.a (Geographylocation.o)
 
-这是出现过很多此的问题，一些 SDK 需要添加一些依赖库，但没有添加上。
+这是出现过很多次的问题，一些 SDK 需要添加一些依赖库，但没有添加上。
 
 **解决办法**
 
