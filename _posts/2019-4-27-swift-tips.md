@@ -1,12 +1,12 @@
 ---
 layout: post
-title: Swift 之奇淫巧技
+title: 记录 Swift 中的一些代码片段
 categories: Swift
 description: Swift
 keywords: ios, swift
 ---
 
-在读一些 Swift 的框架源码时，会发现一些简洁特殊的 Api，本文用来记录这些代码片段，以后开发中可能会用到。
+在读一些 Swift 的框架源码时，会发现一些简洁的 Api，本文用来记录这些代码片段，以后开发中可能会用到。
 
 
 #### 判断是否可以导入某个库
