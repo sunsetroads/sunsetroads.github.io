@@ -49,15 +49,3 @@
 - name: 聆听风声
   url: http://www.codeinfo.top
   src: www
-
-- name: HwiLu's 博客
-  url: https://hwilu.github.io/
-  src: www
-
-- name: 有次博客
-  url: http://you.ci/
-  src: www
-
-- name: 呓城之城
-  url: http://yicheng.zdyrs.com/
-  src: www
