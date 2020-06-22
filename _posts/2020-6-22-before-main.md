@@ -1,10 +1,20 @@
 ---
 layout: post
-title: iOS 底层那点事儿
+title: iOS 程序员的自我修养 -- Main 函数之前做了什么
 categories: iOS
-description: 一次搞定 runtime
+description: iOS 程序员的自我修养 -- Main 函数前做了什么
 keywords: oc, runtime
 ---
+通过这篇文件梳理一下 OC 的代码是如何运行起来的。先介绍下虚拟内存、静态链接、动态链接这些基础的概念，然后通过对 dyld 和 objc 的源码的分析来看 Main 函数调用前都做了哪些工作。
+
+## 虚拟存储
+
+## 静态链接
+
+## 动态链接
+
+
+最近读完了《程序员的自我修养》，
 
 加载可执行文件（读取Mach-O）
 加载动态库（Dylib）
@@ -40,6 +50,7 @@ Bind的作用是重新修复外部指针的指向，这个过程会根据字符�
 
 Objc
 因为Objective C的动态特性，所以在Main函数执行之前，需要把类信息注册到一个全局Table中。同时，Category的方法也会被注册到对应类中，Category中的同名方法实现，会根据编译顺序，被最后一个编译的Category实现所覆盖。同时还会做Selector的唯一性检测。
+
 Initializers
 这个阶段是包含必要的初始化。
 
