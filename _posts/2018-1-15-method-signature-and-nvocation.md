@@ -35,17 +35,38 @@ NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"@@:*"]
 那如何获取这些类型编码呢，可以参考官方文档 [Type Encodings](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html) ，也可以直接使用类型编码 @encode (type) 获取表示该类型的字符串，而不必硬编码。
 
 ## NSInvocation
+
 官方文档的描述：
 > An Objective-C message rendered as an object.
 
-NSInvocation 用来包装方法和对应的对象，它可以存储方法的名称，调用对象和参数。
+IOS 中有一个类型是 SEL，它的作用与函数指针很相似，通过 `performSelector:withObject:` 函数可以直接调用这个消息。但是 perform 相关的这些函数，有一个局限性，其参数数量不能超过 2 个，否则要做很麻烦的处理，与之相对，NSInvocation 也是一种消息调用的方法，并且它的参数没有限制。这两种直接调用对象消息的方法，在 IOS4.0 之后，大多被 block 结构所取代，只有在很老的兼容性系统中才会使用。
 
-NSInvocation 对象需要使用一个方法签名 NSMethodSignature 来初始化。NSMethodSignature 只是表示了方法的返回值和参数的类型。所以在创建 NSInvocation 对象之后仍需指定消息的接收对象和 Selector。
+### 初始化与调用
+NSInvocation 对象需要使用一个方法签名 NSMethodSignature 来初始化。NSMethodSignature 只是表示了方法的返回值和参数的类型。所以在创建 NSInvocation 对象之后仍需指定消息的接收对象和 Selector。它执行调用之前，需要设置两个方法：`setSelector:` 和 `setArgument:atIndex：`。
+```objc
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    SEL myMethod = @selector (myLog);
+    // 创建一个函数签名，这个签名可以是任意的，但需要注意，签名函数的参数数量要和调用的一致。
+    NSMethodSignature * sig  = [NSNumber instanceMethodSignatureForSelector:@selector (init)];
+    // 通过签名初始化
+    NSInvocation * invocatin = [NSInvocation invocationWithMethodSignature:sig];
+    // 设置 target
+    [invocatin setTarget:self];
+    // 设置 selecteor
+    [invocatin setSelector:myMethod];
+    // 消息调用
+    [invocatin invoke];
+    
+}
+-(void) myLog {
+    NSLog (@"MyLog");
+}
+```
 
-原则上接收对象的 Selector 需要跟 NSMethodSignature 相匹配。但是根据实践来说，只要不造成`NSInvocation setArgument:atIndex`越界的异常，都是可以成功转发消息的，并且转发成功之后，未赋值的参数都将被赋值为 nil。
+### NSInvocation 的返回值
+原则上接收对象的 Selector 需要跟 NSMethodSignature 相匹配。但是根据实践来说，只要不造成 `NSInvocation setArgument:atIndex` 越界的异常，都是可以成功转发消息的，并且转发成功之后，未赋值的参数都将被赋值为 nil。例如：
 
-
-举个 🌰：
 ```objc
 - (void) greetingWithInvocation {
     NSMethodSignature *methodSignature = [self methodSignatureForSelector:@selector (greetingWithName:)];
@@ -74,6 +95,39 @@ NSInvocation 对象需要使用一个方法签名 NSMethodSignature 来初始化
 2017-05-03 16:16:29.815 NSInvocationDemo [50214:49610519] Hello (null) 10!
 ```
 
-**注意**
+NSInvocation 对象，是可以有返回值的，然而这个返回值，并不是其所调用函数的返回值，需要我们手动设置：
+```objc
+- (void) viewDidLoad {
+    [super viewDidLoad];
+    SEL myMethod = @selector (myLog:parm:parm:);
+    NSMethodSignature * sig  = [[self class] instanceMethodSignatureForSelector:myMethod];
+    NSInvocation * invocatin = [NSInvocation invocationWithMethodSignature:sig];
+    [invocatin setTarget:self];
+    [invocatin setSelector:myMethod2];
+    ViewController * view = self; 
+    int a=1;
+    int b=2;
+    int c=3;
+    [invocatin setArgument:&view atIndex:0];
+    [invocatin setArgument:&myMethod2 atIndex:1];
+    [invocatin setArgument:&a atIndex:2];
+    [invocatin setArgument:&b atIndex:3];
+    [invocatin setArgument:&c atIndex:4];
+    [invocatin retainArguments];
+    // 我们将 c 的值设置为返回值
+    [invocatin setReturnValue:&c];
+    int d;
+    // 取这个返回值
+    [invocatin getReturnValue:&d];
+    NSLog (@"% d",d);
+    
+}
+-(int) myLog:(int) a parm:(int) b parm:(int) c {
+    NSLog (@"MyLog% d:% d:% d",a,b,c);
+    return a+b+c;
+}
+```
 
-`setArgument:atIndex:` 默认不会强引用它的 argument，如果 argument 在 NSInvocation 执行的时候之前被释放就会造成野指针异常（EXC_BAD_ACCESS）。调用 retainArguments 方法来强引用参数（包括 target 以及 selector）。
+## 注意事项
+
+`setArgument:atIndex:` 传递的都是地址，如果是OC对象，也是取地址。并且默认不会强引用它的 argument，如果 argument 在 NSInvocation 执行的时候之前被释放就会造成野指针异常（EXC_BAD_ACCESS）。调用 retainArguments 方法来强引用参数（包括 target 以及 selector）。
