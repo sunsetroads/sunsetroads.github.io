@@ -26,7 +26,7 @@ OC 向一个对象发送消息后，如果找不到对应的实现时就会进�
 
 OC 的方法签名只是记录了方法的返回值和参数的类型，不包含方法名称，就像是一个方法格式的规定模板。开发者可以 override 消息转发过程前 4 个方法，由 runtime 来调用。最常见的实现消息转发就是重写方法 3 和 4。
 
-生成一个方法签名：
+使用 ObjCTypes 生成一个方法签名：
 ```objc
 NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"@@:*"];
 ```
@@ -42,7 +42,7 @@ NSInvocation 用来包装方法和对应的对象，它可以存储方法的名�
 
 NSInvocation 对象需要使用一个方法签名 NSMethodSignature 来初始化。NSMethodSignature 只是表示了方法的返回值和参数的类型。所以在创建 NSInvocation 对象之后仍需指定消息的接收对象和 Selector。
 
-原则上接收对象的 Selector 需要跟 NSMethodSignature 相匹配。但是根据实践来说，只要不造成 NSInvocation setArgument:atIndex 越界的异常，都是可以成功转发消息的，并且转发成功之后，未赋值的参数都将被赋值为 nil。
+原则上接收对象的 Selector 需要跟 NSMethodSignature 相匹配。但是根据实践来说，只要不造成`NSInvocation setArgument:atIndex`越界的异常，都是可以成功转发消息的，并且转发成功之后，未赋值的参数都将被赋值为 nil。
 
 
 举个 🌰：
@@ -74,4 +74,6 @@ NSInvocation 对象需要使用一个方法签名 NSMethodSignature 来初始化
 2017-05-03 16:16:29.815 NSInvocationDemo [50214:49610519] Hello (null) 10!
 ```
 
-另外需要注意的是，`setArgument:atIndex:` 默认不会强引用它的 argument，如果 argument 在 NSInvocation 执行的时候之前被释放就会造成野指针异常（EXC_BAD_ACCESS）。调用 retainArguments 方法来强引用参数（包括 target 以及 selector）。
+**注意**
+
+`setArgument:atIndex:` 默认不会强引用它的 argument，如果 argument 在 NSInvocation 执行的时候之前被释放就会造成野指针异常（EXC_BAD_ACCESS）。调用 retainArguments 方法来强引用参数（包括 target 以及 selector）。
