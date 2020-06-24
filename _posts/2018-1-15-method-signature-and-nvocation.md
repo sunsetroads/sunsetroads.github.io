@@ -1,6 +1,6 @@
 ---
 layout: post
-title: OC 消息转发中的 NSMethodSignature 和 NSInvocation 解析
+title: OC 中的 NSMethodSignature 和 NSInvocation
 categories: iOS
 description: NSMethodSignature 和 NSInvocation 解析
 keywords: ios 
@@ -128,6 +128,6 @@ NSInvocation 对象，是可以有返回值的，然而这个返回值，并不�
 }
 ```
 
-## 注意事项
+### 注意事项
 
 `setArgument:atIndex:` 传递的都是地址，如果是OC对象，也是取地址。并且默认不会强引用它的 argument，如果 argument 在 NSInvocation 执行的时候之前被释放就会造成野指针异常（EXC_BAD_ACCESS）。调用 retainArguments 方法来强引用参数（包括 target 以及 selector）。
