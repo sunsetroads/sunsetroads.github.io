@@ -30,7 +30,7 @@ OC 的方法签名只是记录了方法的返回值和参数的类型，不包�
 ```objc
 NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"@@:*"];
 ```
-方法签名的 "@@:" 字符串怎么理解呢？ 第一个字符 @ 表明返回值是一个 id。对于消息传递系统来说，所有的 OC 对象都是 id 类型。 接下来的 @： 表明该方法接受一个 id 和一个 SEL 。其实每个 Objective-C 方法都把 id 和 SEL 作为头 2 个参数。最后一个字符 * 表示该方法的一个显式的参数是一个字符串（char *）。
+方法签名的 "@@:" 字符串怎么理解呢？ 第一个字符 @ 表明返回值是一个 id。对于消息传递系统来说，所有的 OC 对象都是 id 类型。 接下来的 @：表明该方法接受一个 id 和一个 SEL 。其实每个 Objective-C 方法都把 id 和 SEL 作为头 2 个参数。最后一个字符 * 表示该方法的一个显式的参数是一个字符串（char *）。
 
 那如何获取这些类型编码呢，可以参考官方文档 [Type Encodings](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ObjCRuntimeGuide/Articles/ocrtTypeEncodings.html) ，也可以直接使用类型编码 @encode (type) 获取表示该类型的字符串，而不必硬编码。
 
