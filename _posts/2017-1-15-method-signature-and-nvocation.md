@@ -1,12 +1,12 @@
 ---
 layout: post
-title: OC 中的 NSMethodSignature 和 NSInvocation
+title: NSMethodSignature 和 NSInvocation
 categories: iOS
 description: NSMethodSignature 和 NSInvocation 解析
 keywords: ios 
 ---
 
-OC 向一个对象发送消息后，如果找不到对应的实现时就会进入消息转发。其中涉及到了 `NSMethodSignature` 和 `NSInvocation` 这两个不熟悉的类，这里总结一下它们的作用。
+OC 向一个对象发送消息后，如果找不到对应的实现时就会进入消息转发。其中涉及到了 `NSMethodSignature` 和 `NSInvocation` 这两个类，这里总结一下它们的作用。
 
 ## 消息转发过程
 
@@ -39,7 +39,7 @@ NSMethodSignature *signature = [NSMethodSignature signatureWithObjCTypes:"@@:*"]
 官方文档的描述：
 > An Objective-C message rendered as an object.
 
-iOS 中有一个类型是 SEL，它的作用与函数指针很相似，通过 `performSelector:withObject:` 函数可以直接调用这个消息。但是 perform 相关的这些函数，有一个局限性，其参数数量不能超过 2 个，否则要做很麻烦的处理，与之相对，NSInvocation 也是一种消息调用的方法，并且它的参数没有限制。这两种直接调用对象消息的方法，在 IOS4.0 之后，大多被 block 结构所取代，只有在很老的兼容性系统中才会使用。
+iOS 中有一个类型是 SEL，它的作用与函数指针很相似，通过 `performSelector:withObject:` 函数可以直接调用这个消息。但是 perform 相关的这些函数，局限性较大，其参数数量不能超过 2 个，否则要做很麻烦的处理，并且在一些情况下存在内存泄露问题。与之相对，NSInvocation 也是一种消息调用的方法，并且它的参数没有限制。这两种直接调用对象消息的方法，在 IOS4.0 之后，大多被 block 结构所取代，只有在很老的兼容性系统中才会使用。
 
 ### 初始化与调用
 NSInvocation 对象需要使用一个方法签名 NSMethodSignature 来初始化。NSMethodSignature 只是表示了方法的返回值和参数的类型。所以在创建 NSInvocation 对象之后仍需指定消息的接收对象和 Selector。它执行调用之前，需要设置两个方法：`setSelector:` 和 `setArgument:atIndex：`。
