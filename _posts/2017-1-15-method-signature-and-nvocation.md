@@ -6,7 +6,7 @@ description: NSMethodSignature 和 NSInvocation 解析
 keywords: ios 
 ---
 
-OC 向一个对象发送消息后，如果找不到对应的实现时就会进入消息转发。其中涉及到了 `NSMethodSignature` 和 `NSInvocation` 这两个类，这里总结一下它们的作用。
+OC 向一个对象发送消息后，如果找不到对应的实现时就会进入消息转发。消息转发过程中会用到 `NSMethodSignature` 和 `NSInvocation` 这两个类，这里总结一下它们的作用。
 
 ## 消息转发过程
 
