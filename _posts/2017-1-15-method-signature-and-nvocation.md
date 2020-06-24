@@ -64,7 +64,6 @@ NSInvocation 对象需要使用一个方法签名 NSMethodSignature 来初始化
 }
 ```
 
-### NSInvocation 的返回值
 原则上接收对象的 Selector 需要跟 NSMethodSignature 相匹配。但是根据实践来说，只要不造成 `NSInvocation setArgument:atIndex` 越界的异常，都是可以成功转发消息的，并且转发成功之后，未赋值的参数都将被赋值为 nil。例如：
 
 ```objc
@@ -94,7 +93,7 @@ NSInvocation 对象需要使用一个方法签名 NSMethodSignature 来初始化
 ```
 2017-05-03 16:16:29.815 NSInvocationDemo [50214:49610519] Hello (null) 10!
 ```
-
+### NSInvocation 的返回值
 NSInvocation 对象，是可以有返回值的，然而这个返回值，并不是其所调用函数的返回值，需要我们手动设置：
 ```objc
 - (void) viewDidLoad {
