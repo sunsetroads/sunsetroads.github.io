@@ -30,18 +30,23 @@ NSLog (@"Members: %@", [hashTable allObjects]);
 NSHashTable 是根据一个 option 参数来进行初始化的，因为从 OSX 平台上移植到 iOS 平台上，原来 OSX 平台上使用的枚举类型被放弃了，从而用 option 来代替，命名也发生了一些变化：
 
 * NSHashTableStrongMemory
+
 等同于 NSPointerFunctionsStrongMemory。对成员变量进行强引用，这是一个默认值，如果采用这个默认值，NSHashTable 和 NSSet 就没什么区别了。
 
 * NSHashTableWeakMemory
+
 等同于 NSPointerFunctionsWeakMemory。对成员变量进行弱引用，使用 NSPointerFunctionsWeakMemory，object 引用在最后释放的时候会被指向 NULL。
 
 * NSHashTableZeroingWeakMemory
+
 已被抛弃，使用 NSHashTableWeakMemory 代替。
 
 * NSHashTableCopyIn
+
 在对象被加入集合之前进行复制（NSPointerFunction-acquireFunction），等同于 NSPointerFunctionsCopyIn。
 
 * NSHashTableObjectPointerPersonality
+
 用指针来等同代替实际的值，当打印这个指针的时候相当于调用 description 方法。和 NSPointerFunctionsObjectPointerPersonality 等同。
 
 ## NSMapTable
