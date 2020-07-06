@@ -1,6 +1,6 @@
 ---
 layout: post
-title: OC 实现一个 Weak Associated Object
+title:  Weak Associated Object
 categories: iOS
 description: OC 实现一个 Weak Associated Object
 keywords: oc, weak
@@ -23,7 +23,7 @@ typedef struct category_t {
 } category_t;
 ```
 
-由于没有 ivar_list_t，在类别中添加属性通常需要借助 runtime 的函数关联对象：
+由于没有`ivar_list_t`，在类别中添加成员变量通常需要借助 runtime 的函数`objc_getAssociatedObject`和`objc_setAssociatedObject`：
 ```objc
 @implementation NSObject (Weak)
 
@@ -37,21 +37,17 @@ typedef struct category_t {
 @end
 ```
 
-设置关联对象时需要指定关联策略 objc_AssociationPolicy：
+`objc_setAssociatedObject`设置关联对象时需要指定关联策略 objc_AssociationPolicy：
 ```objc
 typedef OBJC_ENUM (uintptr_t, objc_AssociationPolicy) {
-    OBJC_ASSOCIATION_ASSIGN = 0,           /**< Specifies a weak reference to the associated object. */
-    OBJC_ASSOCIATION_RETAIN_NONATOMIC = 1, /**< Specifies a strong reference to the associated object. 
-                                            *   The association is not made atomically. */
-    OBJC_ASSOCIATION_COPY_NONATOMIC = 3,   /**< Specifies that the associated object is copied. 
-                                            *   The association is not made atomically. */
-    OBJC_ASSOCIATION_RETAIN = 01401,       /**< Specifies a strong reference to the associated object.
-                                            *   The association is made atomically. */
-    OBJC_ASSOCIATION_COPY = 01403          /**< Specifies that the associated object is copied.
-                                            *   The association is made atomically. */
+    OBJC_ASSOCIATION_ASSIGN = 0,         
+    OBJC_ASSOCIATION_RETAIN_NONATOMIC = 1,
+    OBJC_ASSOCIATION_COPY_NONATOMIC = 3,
+    OBJC_ASSOCIATION_RETAIN = 01401,    
+    OBJC_ASSOCIATION_COPY = 01403
 };
 ```
-可以看到这里并没有 `OBJC_ASSOCIATION_WEAK`，所以无法直接持有一个 weak 对象，下面会讲如何通过添加中间层来间接持有一个 weak 对象。
+可以看到这里有一个`OBJC_ASSOCIATION_ASSIGN`，但并没有 `OBJC_ASSOCIATION_WEAK`，所以无法直接持有一个 weak 对象，下面会讲如何通过添加中间层来间接持有一个 weak 对象。
 
 
 ### 关联对象实现原理
