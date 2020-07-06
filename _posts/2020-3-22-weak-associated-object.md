@@ -26,10 +26,13 @@ typedef struct category_t {
 由于没有`ivar_list_t`，在类别中添加成员变量通常需要借助 runtime 的函数`objc_getAssociatedObject`和`objc_setAssociatedObject`：
 ```objc
 @interface NSObject (Weak)
+
 @property(nonatomic)NSString *myObject;;
+
 @end
 
 @implementation NSObject (Weak)
+
 -(NSString *) myObject {
     return objc_getAssociatedObject (self, @selector (myObject));
 }
